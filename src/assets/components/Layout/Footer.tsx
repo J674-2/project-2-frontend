@@ -9,10 +9,10 @@ export default function Footer() {
             </div>
             <ul>
                 <div>
-                    <NavLink to="/" className={({ isActive }) => isActive ? "underline" : ""}>Previous Orders</NavLink>
+                    <NavLink data-testid='footer-previous-orders' to='/' className={({ isActive }) => isActive ? 'underline' : ''}>Previous Orders</NavLink>
                 </div>
                 <div>
-                    <NavLink to="/make-an-order" className={({ isActive }) => isActive ? "underline" : ""}>Make an Order</NavLink>
+                    <NavLink data-testid='footer-make-an-order' to='/make-an-order' className={({ isActive }) => isActive ? 'underline' : ''}>Make an Order</NavLink>
                 </div>
             </ul>
         </footer>
