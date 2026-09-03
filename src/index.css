@@ -5,3 +5,11 @@
   --font-markazi: "Markazi Text", serif; 
 };
 
+@layer base {
+    h1 {
+        @apply text-[34px] font-bold font-markazi;
+    }
+    a {
+        @apply text-[22px] underline-offset-[15%] decoration-[8%] font-markazi;
+    }
+};
