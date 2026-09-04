@@ -7,12 +7,14 @@ test.describe('Header', () => {
         await expect(page.getByRole('heading', {name: 'Previous Orders'})).toBeVisible()
         await expect(page.getByRole('heading', {name: 'Make an Order'})).toBeHidden()
         await expect(page).toHaveURL('')
+        await expect(page.getByTestId('header-make-an-order')).not.toHaveCSS('text-decoration-line','underline')
 
         await page.getByTestId('header-make-an-order').click()
         
         await expect(page.getByRole('heading', {name: 'Previous Orders'})).toBeHidden()
         await expect(page.getByRole('heading', {name: 'Make an Order'})).toBeVisible()
         await expect(page).toHaveURL('/make-an-order')
+        await expect(page.getByTestId('header-make-an-order')).toHaveCSS('text-decoration-line','underline')
     })
 
     test('"Previous Orders" link works.', async ({page}) => {
@@ -21,12 +23,14 @@ test.describe('Header', () => {
         await expect(page.getByRole('heading', {name: 'Previous Orders'})).toBeHidden()
         await expect(page.getByRole('heading', {name: 'Make an Order'})).toBeVisible()
         await expect(page).toHaveURL('/make-an-order')
+        await expect(page.getByTestId('header-previous-orders')).not.toHaveCSS('text-decoration-line','underline')
 
         await page.getByTestId('header-previous-orders').click()
 
         await expect(page.getByRole('heading', {name: 'Previous Orders'})).toBeVisible()
         await expect(page.getByRole('heading', {name: 'Make an Order'})).toBeHidden()
         await expect(page).toHaveURL('')
+        await expect(page.getByTestId('header-previous-orders')).toHaveCSS('text-decoration-line','underline')
     })
 })
 
@@ -38,12 +42,14 @@ test.describe('Footer', () => {
         await expect(page.getByRole('heading', {name: 'Previous Orders'})).toBeVisible()
         await expect(page.getByRole('heading', {name: 'Make an Order'})).toBeHidden()
         await expect(page).toHaveURL('')
+        await expect(page.getByTestId('footer-make-an-order')).not.toHaveCSS('text-decoration-line','underline')
 
         await page.getByTestId('footer-make-an-order').click()
         
         await expect(page.getByRole('heading', {name: 'Previous Orders'})).toBeHidden()
         await expect(page.getByRole('heading', {name: 'Make an Order'})).toBeVisible()
         await expect(page).toHaveURL('/make-an-order')
+        await expect(page.getByTestId('footer-make-an-order')).toHaveCSS('text-decoration-line','underline')
     })
 
     test('"Previous Orders" link works.', async ({page}) => {
@@ -52,11 +58,13 @@ test.describe('Footer', () => {
         await expect(page.getByRole('heading', {name: 'Previous Orders'})).toBeHidden()
         await expect(page.getByRole('heading', {name: 'Make an Order'})).toBeVisible()
         await expect(page).toHaveURL('/make-an-order')
+        await expect(page.getByTestId('footer-previous-orders')).not.toHaveCSS('text-decoration-line','underline')
 
         await page.getByTestId('footer-previous-orders').click()
 
         await expect(page.getByRole('heading', {name: 'Previous Orders'})).toBeVisible()
         await expect(page.getByRole('heading', {name: 'Make an Order'})).toBeHidden()
         await expect(page).toHaveURL('')
+        await expect(page.getByTestId('footer-previous-orders')).toHaveCSS('text-decoration-line','underline')
     })
 })
