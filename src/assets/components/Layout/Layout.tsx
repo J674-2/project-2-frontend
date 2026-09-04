@@ -4,9 +4,9 @@ import Footer from './Footer'
 
 export default function Layout() {
     return (
-        <div>
+        <div className='h-screen flex flex-col'>
             <Header />
-            <main>
+            <main className='flex-1'>
                 <div>
                     <p>
                         In this application, you will be able to make new orders or look through orders that have previously been made on this application. 
