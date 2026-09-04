@@ -23,12 +23,14 @@ test.describe('Header', () => {
         await expect(page.getByRole('heading', {name: 'Previous Orders'})).toBeHidden()
         await expect(page.getByRole('heading', {name: 'Make an Order'})).toBeVisible()
         await expect(page).toHaveURL('/make-an-order')
+        await expect(page.getByTestId('header-previous-orders')).not.toHaveCSS('text-decoration-line','underline')
 
         await page.getByTestId('header-previous-orders').click()
 
         await expect(page.getByRole('heading', {name: 'Previous Orders'})).toBeVisible()
         await expect(page.getByRole('heading', {name: 'Make an Order'})).toBeHidden()
         await expect(page).toHaveURL('')
+        await expect(page.getByTestId('header-previous-orders')).toHaveCSS('text-decoration-line','underline')
     })
 })
 
