@@ -182,4 +182,44 @@ describe('ListOfOrders', () => {
         expect(order2Loading).toBeVisible()
         expect(order2Error).not.toBeInTheDocument()
     })
+
+
+    test('is correctly displayed, when there are no previous orders.', async () => {
+        server.use(
+            http.get('http://127.0.0.1:8000/api/orders', ({ request }) => {
+                const url = new URL(request.url)
+                const page = url.searchParams.get('page')
+
+                if (page == '1') {
+                    return HttpResponse.json({
+                        'count': 0,
+                        'next': null,
+                        'previous': null,
+                        'results': []
+                    })
+                }  
+            })
+        )
+
+        render(<ListOfOrders />)
+        
+        expect(await screen.findByText('0/0')).toBeVisible()
+
+        const previousPageButton = screen.getByRole('button', {name: 'Previous Page'})
+        expect(previousPageButton).toBeVisible()
+        expect(previousPageButton).toBeDisabled()
+
+        const nextPageButton = screen.getByRole('button', {name: 'Next Page'})
+        expect(nextPageButton).toBeVisible()
+        expect(nextPageButton).toBeDisabled()
+
+        const order0 = screen.getByTestId('order-0')
+        expect(order0).toBeEmptyDOMElement()
+
+        const order1 = screen.getByTestId('order-1')
+        expect(order1).toBeEmptyDOMElement()
+
+        const order2 = screen.getByTestId('order-2')
+        expect(order2).toBeEmptyDOMElement()
+    })
 })
