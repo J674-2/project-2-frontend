@@ -6,6 +6,8 @@ import ListOfOrders from '../../assets/components/cards/ListOfOrders'
 import OrderSummary from '../../assets/components/cards/OrderSummary'
 import { server } from '../../mocks/node'
 import { http, HttpResponse, delay } from 'msw'
+import PageProvider from '../../assets/providers/PageProvider'
+import PreviousOrderInfoProvider from '../../assets/providers/PreviousOrderInfoProvider'
 
 describe('ListOfOrders', () => {
     
@@ -16,7 +18,7 @@ describe('ListOfOrders', () => {
             })
         )
 
-        render(<ListOfOrders />)
+        render(<PageProvider><PreviousOrderInfoProvider><ListOfOrders /></PreviousOrderInfoProvider></PageProvider>)
         
         expect(await screen.findByText('0/0')).toBeVisible()
 
