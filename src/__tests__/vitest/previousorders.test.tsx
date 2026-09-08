@@ -284,7 +284,7 @@ describe('ListOfOrders', () => {
 
         const user = userEvent.setup()
 
-        render(<ListOfOrders />)
+        render(<PageProvider><PreviousOrderInfoProvider><ListOfOrders /></PreviousOrderInfoProvider></PageProvider>)
 
         const previousPageButton = screen.getByRole('button', {name: 'Previous Page'})
         const nextPageButton = screen.getByRole('button', {name: 'Next Page'})
