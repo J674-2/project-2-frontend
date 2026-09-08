@@ -6,6 +6,8 @@ import ListOfOrders from '../../assets/components/cards/ListOfOrders'
 import OrderSummary from '../../assets/components/cards/OrderSummary'
 import { server } from '../../mocks/node'
 import { http, HttpResponse, delay } from 'msw'
+import PageProvider from '../../assets/providers/PageProvider'
+import PreviousOrderInfoProvider from '../../assets/providers/PreviousOrderInfoProvider'
 
 describe('ListOfOrders', () => {
     
@@ -16,7 +18,7 @@ describe('ListOfOrders', () => {
             })
         )
 
-        render(<ListOfOrders />)
+        render(<PageProvider><PreviousOrderInfoProvider><ListOfOrders /></PreviousOrderInfoProvider></PageProvider>)
         
         expect(await screen.findByText('0/0')).toBeVisible()
 
@@ -134,7 +136,7 @@ describe('ListOfOrders', () => {
             })
         )
 
-        render(<ListOfOrders />)
+        render(<PageProvider><PreviousOrderInfoProvider><ListOfOrders /></PreviousOrderInfoProvider></PageProvider>)
         
         expect(screen.getByText('.../...')).toBeVisible()
 
@@ -201,7 +203,7 @@ describe('ListOfOrders', () => {
             })
         )
 
-        render(<ListOfOrders />)
+        render(<PageProvider><PreviousOrderInfoProvider><ListOfOrders /></PreviousOrderInfoProvider></PageProvider>)
         
         expect(await screen.findByText('0/0')).toBeVisible()
 
@@ -225,7 +227,7 @@ describe('ListOfOrders', () => {
 
 
     test('is correctly displayed, when there are previous orders.', async () => {
-        render(<ListOfOrders />)
+        render(<PageProvider><PreviousOrderInfoProvider><ListOfOrders /></PreviousOrderInfoProvider></PageProvider>)
 
         expect(await screen.findByText('1/2')).toBeVisible()
 
@@ -282,7 +284,7 @@ describe('ListOfOrders', () => {
 
         const user = userEvent.setup()
 
-        render(<ListOfOrders />)
+        render(<PageProvider><PreviousOrderInfoProvider><ListOfOrders /></PreviousOrderInfoProvider></PageProvider>)
 
         const previousPageButton = screen.getByRole('button', {name: 'Previous Page'})
         const nextPageButton = screen.getByRole('button', {name: 'Next Page'})
