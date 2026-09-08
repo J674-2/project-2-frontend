@@ -227,7 +227,7 @@ describe('ListOfOrders', () => {
 
 
     test('is correctly displayed, when there are previous orders.', async () => {
-        render(<ListOfOrders />)
+        render(<PageProvider><PreviousOrderInfoProvider><ListOfOrders /></PreviousOrderInfoProvider></PageProvider>)
 
         expect(await screen.findByText('1/2')).toBeVisible()
 
