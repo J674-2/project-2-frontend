@@ -136,7 +136,7 @@ describe('ListOfOrders', () => {
             })
         )
 
-        render(<ListOfOrders />)
+        render(<PageProvider><PreviousOrderInfoProvider><ListOfOrders /></PreviousOrderInfoProvider></PageProvider>)
         
         expect(screen.getByText('.../...')).toBeVisible()
 
