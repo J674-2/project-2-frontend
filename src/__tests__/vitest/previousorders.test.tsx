@@ -203,7 +203,7 @@ describe('ListOfOrders', () => {
             })
         )
 
-        render(<ListOfOrders />)
+        render(<PageProvider><PreviousOrderInfoProvider><ListOfOrders /></PreviousOrderInfoProvider></PageProvider>)
         
         expect(await screen.findByText('0/0')).toBeVisible()
 
