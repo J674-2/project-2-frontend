@@ -1,6 +1,7 @@
 import { queryOptions } from '@tanstack/react-query'
+import type { PreviousOrdersType } from './types'
 
-async function fetchOrders(page: number) {
+async function fetchOrders(page: number): Promise<PreviousOrdersType> {
     const response = await fetch(`https://portfolioapp1.com/api/orders?page=${page}`)
     if (!response.ok) {
         throw new Error()
