@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
-import { ordersOptions } from "../../utils/queryoptions"
-import { usePage } from "../providers/PageProvider"
+import { ordersOptions } from "../../../../utils/queryoptions"
+import { usePage } from "../../../providers/PageProvider"
 
 export default function OrdersPagination() {
 

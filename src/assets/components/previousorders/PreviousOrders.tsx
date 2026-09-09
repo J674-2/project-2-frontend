@@ -1,4 +1,4 @@
-import ListOfOrders from '../ListOfOrders'
+import ListOfOrders from './listoforders/ListOfOrders'
 
 export default function PreviousOrders() {
     return (
