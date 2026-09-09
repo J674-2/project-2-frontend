@@ -8,6 +8,7 @@ import { server } from '../../mocks/node'
 import { http, HttpResponse, delay } from 'msw'
 import PageProvider from '../../assets/providers/PageProvider'
 import PreviousOrderInfoProvider from '../../assets/providers/PreviousOrderInfoProvider'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 describe('ListOfOrders', () => {
     
@@ -18,7 +19,9 @@ describe('ListOfOrders', () => {
             })
         )
 
-        render(<PageProvider><PreviousOrderInfoProvider><ListOfOrders /></PreviousOrderInfoProvider></PageProvider>)
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><PageProvider><PreviousOrderInfoProvider><ListOfOrders /></PreviousOrderInfoProvider></PageProvider></QueryClientProvider>)
         
         expect(await screen.findByText('0/0')).toBeVisible()
 
