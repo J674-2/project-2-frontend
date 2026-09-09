@@ -1,4 +1,4 @@
-import { queryOptions } from '@tanstack/react-query'
+import { keepPreviousData, queryOptions } from '@tanstack/react-query'
 import type { PreviousOrdersType } from './types'
 
 async function fetchOrders(page: number): Promise<PreviousOrdersType> {
@@ -12,6 +12,7 @@ async function fetchOrders(page: number): Promise<PreviousOrdersType> {
 export function ordersOptions(page: number) {
     return queryOptions({
         queryKey: ['orders', page],
-        queryFn: () => fetchOrders(page)
+        queryFn: () => fetchOrders(page),
+        placeholderData: keepPreviousData
     })
 }
