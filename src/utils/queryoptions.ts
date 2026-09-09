@@ -13,6 +13,7 @@ export function ordersOptions(page: number) {
     return queryOptions({
         queryKey: ['orders', page],
         queryFn: () => fetchOrders(page),
-        placeholderData: keepPreviousData
+        placeholderData: keepPreviousData,
+        retry: 1
     })
 }
