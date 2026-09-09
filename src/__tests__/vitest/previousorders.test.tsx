@@ -139,7 +139,9 @@ describe('ListOfOrders', () => {
             })
         )
 
-        render(<PageProvider><PreviousOrderInfoProvider><ListOfOrders /></PreviousOrderInfoProvider></PageProvider>)
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><PageProvider><PreviousOrderInfoProvider><ListOfOrders /></PreviousOrderInfoProvider></PageProvider></QueryClientProvider>)
         
         expect(screen.getByText('.../...')).toBeVisible()
 
