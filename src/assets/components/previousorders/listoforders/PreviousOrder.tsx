@@ -1,8 +1,8 @@
-import { dateTimeFormatting } from "../../../utils/functions"
+import { dateTimeFormatting } from "../../../../utils/functions"
 import { useQuery } from '@tanstack/react-query'
-import { ordersOptions } from "../../../utils/queryoptions"
-import { usePage } from "../../providers/PageProvider"
-import { usePreviousOrderInfo } from "../../providers/PreviousOrderInfoProvider"
+import { ordersOptions } from "../../../../utils/queryoptions"
+import { usePage } from "../../../providers/PageProvider"
+import { usePreviousOrderInfo } from "../../../providers/PreviousOrderInfoProvider"
 
 export default function PreviousOrder({ index } : {index: 0 | 1 | 2}) {
 
