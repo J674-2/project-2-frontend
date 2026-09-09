@@ -1,6 +1,6 @@
 import './App.css'
 import Layout from './assets/components/layout/Layout'
-import PreviousOrders from './assets/components/pages/PreviousOrders'
+import PreviousOrders from './assets/components/previousorders/PreviousOrders'
 import MakeAnOrder from './assets/components/pages/MakeAnOrder'
 import {Routes, Route} from 'react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
