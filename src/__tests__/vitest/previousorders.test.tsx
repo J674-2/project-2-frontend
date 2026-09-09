@@ -293,7 +293,9 @@ describe('ListOfOrders', () => {
 
         const user = userEvent.setup()
 
-        render(<PageProvider><PreviousOrderInfoProvider><ListOfOrders /></PreviousOrderInfoProvider></PageProvider>)
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><PageProvider><PreviousOrderInfoProvider><ListOfOrders /></PreviousOrderInfoProvider></PageProvider></QueryClientProvider>)
 
         const previousPageButton = screen.getByRole('button', {name: 'Previous Page'})
         const nextPageButton = screen.getByRole('button', {name: 'Next Page'})
