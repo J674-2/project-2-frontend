@@ -234,7 +234,9 @@ describe('ListOfOrders', () => {
 
 
     test('is correctly displayed, when there are previous orders.', async () => {
-        render(<PageProvider><PreviousOrderInfoProvider><ListOfOrders /></PreviousOrderInfoProvider></PageProvider>)
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><PageProvider><PreviousOrderInfoProvider><ListOfOrders /></PreviousOrderInfoProvider></PageProvider></QueryClientProvider>)
 
         expect(await screen.findByText('1/2')).toBeVisible()
 
