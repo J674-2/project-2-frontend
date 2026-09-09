@@ -1,16 +1,16 @@
 import {useContext, createContext, useState} from 'react'
 
-type PreviousOrderInfoContextType = null | [0|1|2, React.Dispatch<React.SetStateAction<0 | 1 | 2>>, boolean, React.Dispatch<React.SetStateAction<boolean>>]
+type PreviousOrderInfoContextType = null | [{page: number, index: 0 | 1 | 2}, React.Dispatch<React.SetStateAction<{page: number, index: 0 | 1 | 2}>>, boolean, React.Dispatch<React.SetStateAction<boolean>>]
 
 const PreviousOrderInfoContext = createContext<PreviousOrderInfoContextType>(null)
 
 export default function PreviousOrderInfoProvider({ children }: {children: React.ReactElement}) {
 
-    const [orderIndex, setOrderIndex] = useState<0 | 1 | 2>(0)
+    const [selectedOrder, setSelectedOrder] = useState<{page: number, index: 0 | 1 | 2}>({page: 1, index: 0})
     const [stopPreviousOrderFormatting, setStopPreviousOrderFormatting] = useState<boolean>(false)
 
     return (
-        <PreviousOrderInfoContext value={[orderIndex, setOrderIndex, stopPreviousOrderFormatting, setStopPreviousOrderFormatting]}>
+        <PreviousOrderInfoContext value={[selectedOrder, setSelectedOrder, stopPreviousOrderFormatting, setStopPreviousOrderFormatting]}>
             {children}
         </PreviousOrderInfoContext>
     )
