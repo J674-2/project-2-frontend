@@ -8,7 +8,7 @@ export default function PreviousOrder({ index } : {index: 0 | 1 | 2}) {
 
     const [page] = usePage()
 
-    const [orderIndex, setOrderIndex, , setStopPreviousOrderFormatting] = usePreviousOrderInfo()
+    const [selectedOrder, setSelectedOrder, , setStopPreviousOrderFormatting] = usePreviousOrderInfo()
 
     const orders = useQuery(ordersOptions(page))
 
@@ -39,7 +39,7 @@ export default function PreviousOrder({ index } : {index: 0 | 1 | 2}) {
                         </div>
                     </div>
                     <div>
-                        <button disabled={orderIndex == index} onClick={() => {setOrderIndex(index); setStopPreviousOrderFormatting(false)}}>See Order</button>
+                        <button disabled={selectedOrder.page == page && selectedOrder.index == index} onClick={() => {setSelectedOrder({page: page, index: index}); setStopPreviousOrderFormatting(false)}}>See Order</button>
                     </div>
                     </>
                 )
