@@ -527,6 +527,54 @@ describe('ListOfOrders', () => {
 
 
 describe('OrderSummary', () => {
+    test('is correctly displayed, when the query returns an error.', async () => {
+        server.use(
+            http.get('http://127.0.0.1:8000/api/orders', () => {
+                return HttpResponse.json(null, {status: 400})
+            })
+        )
+
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><PageProvider><PreviousOrderInfoProvider><OrderSummary /></PreviousOrderInfoProvider></PageProvider></QueryClientProvider>)
+        
+        const totalSection = screen.getByTestId('order-total-section')
+        const zeroTotal = await within(totalSection).findByText('£0.00')
+        const total = within(totalSection).queryByText('£56.45')
+        const totalLoading = within(totalSection).queryByText('Loading...')
+        expect(zeroTotal).toBeVisible()
+        expect(total).not.toBeInTheDocument()
+        expect(totalLoading).not.toBeInTheDocument()
+
+        const deliveryCostSection = screen.getByTestId('order-delivery-cost-section')
+        const deliveryCost = within(deliveryCostSection).queryByText('£2.20')
+        const zeroDeliveryCost = within(deliveryCostSection).queryByText('£0.00')
+        const deliveryCostLoading = within(deliveryCostSection).queryByText('Loading...')
+        expect(deliveryCost).not.toBeInTheDocument()
+        expect(zeroDeliveryCost).toBeVisible()
+        expect(deliveryCostLoading).not.toBeInTheDocument()
+
+        const subtotalSection = screen.getByTestId('order-subtotal-section')
+        const subtotal = within(subtotalSection).queryByText('£54.25')
+        const zeroSubtotal = within(subtotalSection).queryByText('£0.00')
+        const subtotalLoading = within(subtotalSection).queryByText('Loading...')
+        expect(subtotal).not.toBeInTheDocument()
+        expect(zeroSubtotal).toBeVisible()
+        expect(subtotalLoading).not.toBeInTheDocument()
+
+        const itemsSection = screen.getByTestId('order-items-section')
+        expect(itemsSection).toBeEmptyDOMElement()
+
+        const dateTimeSection = screen.getByTestId('order-date-time-section')
+        const date = within(dateTimeSection).queryByText('07/09/2026')
+        const time = within(dateTimeSection).queryByText('09:02')
+        const dateTimeLoading = within(dateTimeSection).queryByText('Loading...')
+        expect(date).not.toBeInTheDocument()
+        expect(time).not.toBeInTheDocument()
+        expect(dateTimeLoading).not.toBeInTheDocument()
+    })
+    
+    
     test('correctly displays loading values while the query is pending.', () => {
         server.use(
             http.get('http://127.0.0.1:8000/api/orders', async ({ request }) => {
