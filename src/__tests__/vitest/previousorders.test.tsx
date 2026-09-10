@@ -372,4 +372,66 @@ describe('ListOfOrders', () => {
         expect(order2Loading).not.toBeInTheDocument()
         expect(order2Error).not.toBeInTheDocument()
     })
+
+
+    test('correctly displays, when placeholderData is available.', async () => {
+
+        const user = userEvent.setup()
+
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><PageProvider><PreviousOrderInfoProvider><ListOfOrders /></PreviousOrderInfoProvider></PageProvider></QueryClientProvider>)
+
+        const previousPageButton = screen.getByRole('button', {name: 'Previous Page'})
+        const nextPageButton = screen.getByRole('button', {name: 'Next Page'})
+
+        await user.click(nextPageButton)
+
+        expect(screen.getByText('.../...')).toBeVisible()
+
+        expect(previousPageButton).toBeVisible()
+        expect(previousPageButton).toBeEnabled()
+
+        expect(nextPageButton).toBeVisible()
+        expect(nextPageButton).toBeDisabled()
+
+        const order0 = screen.getByTestId('order-0')
+        const order0Date = within(order0).queryByText('07/09/2026')
+        const order0Time = within(order0).queryByText('09:02')
+        const order0Button = within(order0).queryByRole('button', {name: 'See Order'})
+        const order0Loading = within(order0).queryByText('Loading...')
+        const order0Error = within(order0).queryByText('An error occurred.')
+        expect(order0Date).toBeVisible()
+        expect(order0Time).toBeVisible()
+        expect(order0Button).toBeVisible()
+        expect(order0Button).toBeDisabled()
+        expect(order0Loading).not.toBeInTheDocument()
+        expect(order0Error).not.toBeInTheDocument()
+
+        const order1 = screen.getByTestId('order-1')
+        const order1Date = within(order1).queryByText('07/09/2026')
+        const order1Time = within(order1).queryByText('09:01')
+        const order1Button = within(order1).queryByRole('button', {name: 'See Order'})
+        const order1Loading = within(order1).queryByText('Loading...')
+        const order1Error = within(order1).queryByText('An error occurred.')
+        expect(order1Date).toBeVisible()
+        expect(order1Time).toBeVisible()
+        expect(order1Button).toBeVisible()
+        expect(order1Button).toBeDisabled()
+        expect(order1Loading).not.toBeInTheDocument()
+        expect(order1Error).not.toBeInTheDocument()
+
+        const order2 = screen.getByTestId('order-2')
+        const order2Date = within(order2).queryByText('07/09/2026')
+        const order2Time = within(order2).queryByText('09:00')
+        const order2Button = within(order2).queryByRole('button', {name: 'See Order'})
+        const order2Loading = within(order2).queryByText('Loading...')
+        const order2Error = within(order2).queryByText('An error occurred.')
+        expect(order2Date).toBeVisible()
+        expect(order2Time).toBeVisible()
+        expect(order2Button).toBeVisible()
+        expect(order2Button).toBeDisabled()
+        expect(order2Loading).not.toBeInTheDocument()
+        expect(order2Error).not.toBeInTheDocument()
+    })
 })
