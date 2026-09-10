@@ -39,7 +39,7 @@ export default function PreviousOrder({ index } : {index: 0 | 1 | 2}) {
                         </div>
                     </div>
                     <div>
-                        <button disabled={selectedOrder.page == page && selectedOrder.index == index} onClick={() => {setSelectedOrder({page: page, index: index}); setStopPreviousOrderFormatting(false)}}>See Order</button>
+                        <button disabled={orders.isPlaceholderData || (selectedOrder.page == page && selectedOrder.index == index)} onClick={() => {setSelectedOrder({page: page, index: index}); setStopPreviousOrderFormatting(false)}}>See Order</button>
                     </div>
                     </>
                 )
