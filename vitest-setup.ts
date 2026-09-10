@@ -2,6 +2,9 @@ import '@testing-library/jest-dom/vitest'
 import { cleanup } from '@testing-library/react'
 import { beforeAll, afterEach, afterAll } from 'vitest'
 import { server } from './src/mocks/node.ts'
+import {configure} from '@testing-library/react'
+
+configure({asyncUtilTimeout: 5000})
 
 beforeAll(() => server.listen())
 
