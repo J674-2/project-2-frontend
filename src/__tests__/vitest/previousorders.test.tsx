@@ -5,7 +5,7 @@ import PreviousOrders from '../../assets/components/previousorders/PreviousOrder
 import ListOfOrders from '../../assets/components/previousorders/listoforders/ListOfOrders'
 import OrderSummary from '../../assets/components/cards/OrderSummary'
 import { server } from '../../mocks/node'
-import { http, HttpResponse, delay } from 'msw'
+import { http, HttpResponse } from 'msw'
 import PageProvider from '../../assets/providers/PageProvider'
 import PreviousOrderInfoProvider from '../../assets/providers/PreviousOrderInfoProvider'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -72,73 +72,7 @@ describe('ListOfOrders', () => {
 
 
     test('correctly displays loading values while waiting for server response.', async () => {
-        server.use(
-            http.get('http://127.0.0.1:8000/api/orders', async ({ request }) => {
-                const url = new URL(request.url)
-                const page = url.searchParams.get('page')
-
-                await delay(400)
-
-                if (page == '1') {
-                    return HttpResponse.json({
-                        'count': 4,
-                        'next': 'http://127.0.0.1:8000/api/orders?page=2',
-                        'previous': null,
-                        'results': [
-                            {
-                                'id': 4,
-                                'date_time': '2026-09-07T09:02:05.423877Z',
-                                'order_items': [
-                                    {
-                                        'id': 7,
-                                        'item': 'salad',
-                                        'item_quantity': 5
-                                    },
-                                    {
-                                        'id': 8,
-                                        'item': 'burger',
-                                        'item_quantity': 2
-                                    }
-                                ]
-                            },
-                            {
-                                'id': 3,
-                                'date_time': '2026-09-07T09:01:48.515074Z',
-                                'order_items': [
-                                    {
-                                        'id': 5,
-                                        'item': 'ice cream',
-                                        'item_quantity': 2
-                                    },
-                                    {
-                                        'id': 6,
-                                        'item': 'strawberries',
-                                        'item_quantity': 1
-                                    }
-                                ]
-                            },
-                            {
-                                'id': 2,
-                                'date_time': '2026-09-07T09:00:10.115674Z',
-                                'order_items': [
-                                    {
-                                        'id': 3,
-                                        'item': 'croquettes',
-                                        'item_quantity': 4
-                                    },
-                                    {
-                                        'id': 4,
-                                        'item': 'strawberries',
-                                        'item_quantity': 3
-                                    }
-                                ]
-                            }
-                        ]
-                    })
-                }  
-            })
-        )
-
+        
         const queryClient = new QueryClient()
 
         render(<QueryClientProvider client={queryClient}><PageProvider><PreviousOrderInfoProvider><ListOfOrders /></PreviousOrderInfoProvider></PageProvider></QueryClientProvider>)
