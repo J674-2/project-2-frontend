@@ -1,12 +1,11 @@
-import { http, HttpResponse, delay } from 'msw'
+import { http, HttpResponse } from 'msw'
 
 export const handlers = [
-    http.get('http://127.0.0.1:8000/api/orders', async ({ request }) => {
+    http.get('http://127.0.0.1:8000/api/orders', ({ request }) => {
         const url = new URL(request.url)
         const page = url.searchParams.get('page')
 
         if (page == '1') {
-            await delay(400)
             return HttpResponse.json({
                 'count': 4,
                 'next': 'http://127.0.0.1:8000/api/orders?page=2',
@@ -63,7 +62,6 @@ export const handlers = [
                 ]
             })
         } else if (page == '2') {
-            await delay(400)
             return HttpResponse.json({
                 'count': 4,
                 'next': null,
