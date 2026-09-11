@@ -905,4 +905,174 @@ describe('PreviousOrders', () => {
         expect(zeroTotal).not.toBeInTheDocument()
         expect(totalLoading).not.toBeInTheDocument()
     })
+
+
+    test('does not change OrderSummary, when the page is changed in ListOfOrders and the placeholderData is available.', async () => {
+        server.use(
+            http.get('http://127.0.0.1:8000/api/orders', async ({ request }) => {
+                const url = new URL(request.url)
+                const page = url.searchParams.get('page')
+
+                if (page == '1') {
+                    return HttpResponse.json({
+                        'count': 4,
+                        'next': 'http://127.0.0.1:8000/api/orders?page=2',
+                        'previous': null,
+                        'results': [
+                            {
+                                'id': 4,
+                                'date_time': '2026-09-07T09:02:05.423877Z',
+                                'order_items': [
+                                    {
+                                        'id': 7,
+                                        'item': 'salad',
+                                        'item_quantity': 5
+                                    },
+                                    {
+                                        'id': 8,
+                                        'item': 'burger',
+                                        'item_quantity': 2
+                                    }
+                                ]
+                            },
+                            {
+                                'id': 3,
+                                'date_time': '2026-09-07T09:01:48.515074Z',
+                                'order_items': [
+                                    {
+                                        'id': 5,
+                                        'item': 'ice cream',
+                                        'item_quantity': 2
+                                    },
+                                    {
+                                        'id': 6,
+                                        'item': 'strawberries',
+                                        'item_quantity': 1
+                                    }
+                                ]
+                            },
+                            {
+                                'id': 2,
+                                'date_time': '2026-09-07T09:00:10.115674Z',
+                                'order_items': [
+                                    {
+                                        'id': 3,
+                                        'item': 'croquettes',
+                                        'item_quantity': 4
+                                    },
+                                    {
+                                        'id': 4,
+                                        'item': 'strawberries',
+                                        'item_quantity': 3
+                                    }
+                                ]
+                            }
+                        ]
+                    })
+                } else if (page == '2') {
+                    await delay(400)
+                    return HttpResponse.json({
+                        'count': 4,
+                        'next': null,
+                        'previous': 'http://127.0.0.1:8000/api/orders',
+                        'results': [
+                            {
+                                'id': 1,
+                                'date_time': '2026-09-07T08:57:32.234494Z',
+                                'order_items': [
+                                    {
+                                        'id': 1,
+                                        'item': 'toast',
+                                        'item_quantity': 2
+                                    },
+                                    {
+                                        'id': 2,
+                                        'item': 'spaghetti',
+                                        'item_quantity': 1
+                                    }
+                                ]
+                            }
+                        ]
+                    })
+                } 
+            })
+        )
+        
+        const user = userEvent.setup()
+
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><PageProvider><PreviousOrderInfoProvider><OrderSummary /></PreviousOrderInfoProvider></PageProvider></QueryClientProvider>)
+        
+        const nextPageButton = screen.getByRole('button', {name: 'Next Page'})
+
+        await user.click(nextPageButton)
+
+        expect(await screen.findByText('.../...')).toBeVisible()
+
+        const dateTimeSection = screen.getByTestId('order-date-time-section')
+        const date = within(dateTimeSection).queryByText('07/09/2026')
+        const time = within(dateTimeSection).queryByText('09:02')
+        const dateTimeLoading = within(dateTimeSection).queryByText('Loading...')
+        expect(date).toBeVisible()
+        expect(time).toBeVisible()
+        expect(dateTimeLoading).not.toBeInTheDocument()
+
+        const itemsSection = screen.getByTestId('order-items-section')
+
+        const item1 = screen.getByTestId('order-item-1')
+        const item1Name = within(item1).getByText('Salad:')
+        const item1Price = within(item1).getByText('£6.25')
+        const item1Quantity = within(item1).getByText('x5')
+        const wrongItem1Name = within(item1).queryByText('Burger:')
+        const wrongItem1Price = within(item1).queryByText('£11.50')
+        const wrongItem1Quantity = within(item1).queryByText('x2')
+        expect(item1Name).toBeVisible()
+        expect(item1Price).toBeVisible()
+        expect(item1Quantity).toBeVisible()
+        expect(wrongItem1Name).not.toBeInTheDocument()
+        expect(wrongItem1Price).not.toBeInTheDocument()
+        expect(wrongItem1Quantity).not.toBeInTheDocument()
+
+        const item2 = screen.getByTestId('order-item-2')
+        const item2Name = within(item2).getByText('Burger:')
+        const item2Price = within(item2).getByText('£11.50')
+        const item2Quantity = within(item2).getByText('x2')
+        const wrongItem2Name = within(item2).queryByText('Salad:')
+        const wrongItem2Price = within(item2).queryByText('£6.25')
+        const wrongItem2Quantity = within(item2).queryByText('x5')
+        expect(item2Name).toBeVisible()
+        expect(item2Price).toBeVisible()
+        expect(item2Quantity).toBeVisible()
+        expect(wrongItem2Name).not.toBeInTheDocument()
+        expect(wrongItem2Price).not.toBeInTheDocument()
+        expect(wrongItem2Quantity).not.toBeInTheDocument()
+
+        const itemsLoading = within(itemsSection).queryByText('Loading...')
+        expect(itemsLoading).not.toBeInTheDocument()
+
+        const subtotalSection = screen.getByTestId('order-subtotal-section')
+        const subtotal = within(subtotalSection).queryByText('£54.25')
+        const zeroSubtotal = within(subtotalSection).queryByText('£0.00')
+        const subtotalLoading = within(subtotalSection).queryByText('Loading...')
+        expect(subtotal).toBeVisible()
+        expect(zeroSubtotal).not.toBeInTheDocument()
+        expect(subtotalLoading).not.toBeInTheDocument()
+
+        const deliveryCostSection = screen.getByTestId('order-delivery-cost-section')
+        const deliveryCost = within(deliveryCostSection).queryByText('£2.20')
+        const zeroDeliveryCost = within(deliveryCostSection).queryByText('£0.00')
+        const deliveryCostLoading = within(deliveryCostSection).queryByText('Loading...')
+        expect(deliveryCost).toBeVisible()
+        expect(zeroDeliveryCost).not.toBeInTheDocument()
+        expect(deliveryCostLoading).not.toBeInTheDocument()
+
+        const totalSection = screen.getByTestId('order-total-section')
+        const total = within(totalSection).queryByText('£56.45')
+        const zeroTotal = within(totalSection).queryByText('£0.00')
+        const totalLoading = within(totalSection).queryByText('Loading...')
+        expect(total).toBeVisible()
+        expect(zeroTotal).not.toBeInTheDocument()
+        expect(totalLoading).not.toBeInTheDocument()
+    })
 })
