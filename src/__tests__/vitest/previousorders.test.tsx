@@ -819,3 +819,90 @@ describe('OrderSummary', () => {
         expect(totalLoading).not.toBeInTheDocument()
     })
 })
+
+
+describe('PreviousOrders', () => {
+    test('correctly changes ListOfOrders and OrderSummary, when a "See Order" button is clicked in ListOfOrders.', async () => {
+        const user = userEvent.setup()
+        
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><PageProvider><PreviousOrderInfoProvider><OrderSummary /></PreviousOrderInfoProvider></PageProvider></QueryClientProvider>)
+        
+        const seeOrderButton2 = screen.getAllByRole('button', {name: 'See Order'})[1]
+
+        await user.click(seeOrderButton2)
+
+        expect(seeOrderButton2).toBeDisabled()
+
+        const seeOrderButton1 = screen.getAllByRole('button', {name: 'See Order'})[0]
+        const seeOrderButton3 = screen.getAllByRole('button', {name: 'See Order'})[2]
+        expect(seeOrderButton1).toBeEnabled()
+        expect(seeOrderButton3).toBeEnabled()
+
+        const dateTimeSection = screen.getByTestId('order-date-time-section')
+        const date = within(dateTimeSection).queryByText('07/09/2026')
+        const time = within(dateTimeSection).queryByText('09:01')
+        const dateTimeLoading = within(dateTimeSection).queryByText('Loading...')
+        expect(date).toBeVisible()
+        expect(time).toBeVisible()
+        expect(dateTimeLoading).not.toBeInTheDocument()
+
+        const itemsSection = screen.getByTestId('order-items-section')
+
+        const item1 = screen.getByTestId('order-item-1')
+        const item1Name = within(item1).getByText('Ice cream:')
+        const item1Price = within(item1).getByText('£4.30')
+        const item1Quantity = within(item1).getByText('x2')
+        const wrongItem1Name = within(item1).queryByText('Strawberries:')
+        const wrongItem1Price = within(item1).queryByText('£2.60')
+        const wrongItem1Quantity = within(item1).queryByText('x1')
+        expect(item1Name).toBeVisible()
+        expect(item1Price).toBeVisible()
+        expect(item1Quantity).toBeVisible()
+        expect(wrongItem1Name).not.toBeInTheDocument()
+        expect(wrongItem1Price).not.toBeInTheDocument()
+        expect(wrongItem1Quantity).not.toBeInTheDocument()
+
+        const item2 = screen.getByTestId('order-item-2')
+        const item2Name = within(item2).getByText('Strawberries:')
+        const item2Price = within(item2).getByText('£2.60')
+        const item2Quantity = within(item2).getByText('x1')
+        const wrongItem2Name = within(item2).queryByText('Ice cream:')
+        const wrongItem2Price = within(item2).queryByText('£4.30')
+        const wrongItem2Quantity = within(item2).queryByText('x2')
+        expect(item2Name).toBeVisible()
+        expect(item2Price).toBeVisible()
+        expect(item2Quantity).toBeVisible()
+        expect(wrongItem2Name).not.toBeInTheDocument()
+        expect(wrongItem2Price).not.toBeInTheDocument()
+        expect(wrongItem2Quantity).not.toBeInTheDocument()
+
+        const itemsLoading = within(itemsSection).queryByText('Loading...')
+        expect(itemsLoading).not.toBeInTheDocument()
+
+        const subtotalSection = screen.getByTestId('order-subtotal-section')
+        const subtotal = within(subtotalSection).queryByText('£11.20')
+        const zeroSubtotal = within(subtotalSection).queryByText('£0.00')
+        const subtotalLoading = within(subtotalSection).queryByText('Loading...')
+        expect(subtotal).toBeVisible()
+        expect(zeroSubtotal).not.toBeInTheDocument()
+        expect(subtotalLoading).not.toBeInTheDocument()
+
+        const deliveryCostSection = screen.getByTestId('order-delivery-cost-section')
+        const deliveryCost = within(deliveryCostSection).queryByText('£2.20')
+        const zeroDeliveryCost = within(deliveryCostSection).queryByText('£0.00')
+        const deliveryCostLoading = within(deliveryCostSection).queryByText('Loading...')
+        expect(deliveryCost).toBeVisible()
+        expect(zeroDeliveryCost).not.toBeInTheDocument()
+        expect(deliveryCostLoading).not.toBeInTheDocument()
+
+        const totalSection = screen.getByTestId('order-total-section')
+        const total = within(totalSection).queryByText('£13.40')
+        const zeroTotal = within(totalSection).queryByText('£0.00')
+        const totalLoading = within(totalSection).queryByText('Loading...')
+        expect(total).toBeVisible()
+        expect(zeroTotal).not.toBeInTheDocument()
+        expect(totalLoading).not.toBeInTheDocument()
+    })
+})
