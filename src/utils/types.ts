@@ -11,6 +11,8 @@ export interface PreviousOrdersType {
     results: PreviousOrderType[]
 }
 
+export type NewOrderType = {item: string, item_quantity: number}[]
+
 export interface FormattedOrderType {
     orderItems: {item: string, price: number, itemQuantity: number}[],
     subtotal: number, 
