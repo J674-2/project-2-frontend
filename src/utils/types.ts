@@ -11,9 +11,7 @@ export interface PreviousOrdersType {
     results: PreviousOrderType[]
 }
 
-export interface FormattedPreviousOrderType {
-    date: string,
-    time: string,
+export interface FormattedOrderType {
     orderItems: {item: string, price: number, itemQuantity: number}[],
     subtotal: number, 
     total: number
