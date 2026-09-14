@@ -15,7 +15,7 @@ export const menuItemsInfo = {
     'pie': {description: 'Chicken and leek pie.', price: 10.40, src: pieImg},
     'burger': {description: 'Burger filled with cheese and onions.', price: 11.50, src: burgerImg},
     'spaghetti': {description: 'Creamy mushroom spaghetti.', price: 11.28, src: spaghettiImg},
-    'iceCream': {description: 'Vanilla ice cream with caramel sauce.', price: 4.30, src: iceCreamImg},
+    'ice cream': {description: 'Vanilla ice cream with caramel sauce.', price: 4.30, src: iceCreamImg},
     'cookies': {description: 'A selection of chocolate chip cookies.', price: 4.65, src: cookiesImg},
     'strawberries': {description: 'Freshly picked sweet strawberries.', price: 2.60, src: strawberriesImg}
 }
