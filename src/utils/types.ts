@@ -1,7 +1,9 @@
+type Item = 'toast'|'salad'|'croquettes'|'pie'|'burger'|'spaghetti'|'ice cream'|'cookies'|'strawberries'
+
 export interface PreviousOrderType {
     id: number, 
     date_time: string,
-    order_items: {id: number, item: string, item_quantity: number}[]
+    order_items: {id: number, item: Item , item_quantity: number}[]
 }
 
 export interface PreviousOrdersType {
@@ -11,7 +13,7 @@ export interface PreviousOrdersType {
     results: PreviousOrderType[]
 }
 
-export type NewOrderType = {item: string, item_quantity: number}[]
+export type NewOrderType = {order_items: {item: Item , item_quantity: number}[]}
 
 export interface FormattedOrderType {
     orderItems: {item: string, price: number, itemQuantity: number}[],
