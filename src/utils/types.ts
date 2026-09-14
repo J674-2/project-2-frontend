@@ -13,7 +13,7 @@ export interface PreviousOrdersType {
     results: PreviousOrderType[]
 }
 
-export type NewOrderType = {item: Item , item_quantity: number}[]
+export type NewOrderType = {order_items: {item: Item , item_quantity: number}[]}
 
 export interface FormattedOrderType {
     orderItems: {item: string, price: number, itemQuantity: number}[],
