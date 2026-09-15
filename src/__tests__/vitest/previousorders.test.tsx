@@ -829,7 +829,7 @@ describe('PreviousOrders', () => {
 
         render(<QueryClientProvider client={queryClient}><PageProvider><PreviousOrderInfoProvider><PreviousOrders /></PreviousOrderInfoProvider></PageProvider></QueryClientProvider>)
         
-        const seeOrderButton2 = screen.getAllByRole('button', {name: 'See Order'})[1]
+        const seeOrderButton2 = (await screen.findAllByRole('button', {name: 'See Order'}))[1]
 
         await user.click(seeOrderButton2)
 
