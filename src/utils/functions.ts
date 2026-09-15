@@ -9,7 +9,7 @@ export function dateTimeFormatting(order: PreviousOrderType): {date: string, tim
     return {date: date, time: time}
 }
 
-export function orderFormatting(order: PreviousOrderType | NewOrderType): FormattedOrderType {
+export function orderItemsFormatting(order: PreviousOrderType | NewOrderType): FormattedOrderType {
     let orderItems: {item: string, price: number, itemQuantity: number}[] = []
     let subtotal = 0
     for (const orderItem of order.order_items) {
