@@ -1,4 +1,4 @@
-import { dateTimeFormatting } from "../../../../utils/functions"
+import { dateTimeFormatting, orderItemsFormatting } from "../../../../utils/functions"
 import { useQuery } from '@tanstack/react-query'
 import { ordersOptions } from "../../../../utils/queryoptions"
 import { usePage } from "../../../providers/PageProvider"
@@ -7,8 +7,7 @@ import { usePreviousOrderInfo } from "../../../providers/PreviousOrderInfoProvid
 export default function PreviousOrder({ index } : {index: 0 | 1 | 2}) {
 
     const [page] = usePage()
-
-    const [selectedOrder, setSelectedOrder, , setStopPreviousOrderFormatting] = usePreviousOrderInfo()
+    const [selectedOrder, setSelectedOrder, , setOrderDateTime, , setFormattedPreviousOrder] = usePreviousOrderInfo()
 
     const orders = useQuery(ordersOptions(page))
 
@@ -17,6 +16,15 @@ export default function PreviousOrder({ index } : {index: 0 | 1 | 2}) {
             return 'text-gray-500'
         }
         return ''
+    }
+
+    function handleClick() {
+        if (orders.isSuccess){
+            setSelectedOrder({page: page, index: index})
+            const order = orders.data.results[index]
+            setOrderDateTime(dateTimeFormatting(order))
+            setFormattedPreviousOrder(orderItemsFormatting(order))
+        }
     }
     
     function content() {
@@ -39,7 +47,7 @@ export default function PreviousOrder({ index } : {index: 0 | 1 | 2}) {
                         </div>
                     </div>
                     <div>
-                        <button disabled={orders.isPlaceholderData || (selectedOrder.page == page && selectedOrder.index == index)} onClick={() => {setSelectedOrder({page: page, index: index}); setStopPreviousOrderFormatting(false)}}>See Order</button>
+                        <button disabled={orders.isPlaceholderData || (selectedOrder.page == page && selectedOrder.index == index)} onClick={handleClick}>See Order</button>
                     </div>
                     </>
                 )
