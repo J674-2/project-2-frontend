@@ -13,7 +13,7 @@ export default function OrderSummary() {
 
     function dateTimeContent() {
         if (orders.isPending) {
-            <p>Loading...</p> 
+            return <p>Loading...</p> 
         } else { 
             if(!!orderDateTime.date) { 
                 return (
