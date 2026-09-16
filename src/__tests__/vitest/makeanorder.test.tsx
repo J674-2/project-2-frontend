@@ -210,4 +210,60 @@ describe('Menu', () => {
         expect(item3Button).toBeVisible()
         expect(item3Button).toBeEnabled()        
     })
+
+
+    test('only disables the "Add to Cart" button that was clicked, when the menu items being displayed are the same as when the button was clicked.', async () => {
+
+        const user = userEvent.setup()
+
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><NewOrderInfoProvider><Menu /></NewOrderInfoProvider></QueryClientProvider>)
+
+        const item1 = screen.getByTestId('menu-item-1')
+        const item1Button = within(item1).getByRole('button', {name: 'Add to Cart'})
+
+        const item2 = screen.getByTestId('menu-item-2')
+        const item2Button = within(item2).getByRole('button', {name: 'Add to Cart'})
+
+        const item3 = screen.getByTestId('menu-item-3')
+        const item3Button = within(item3).getByRole('button', {name: 'Add to Cart'})
+        
+        await user.click(item1Button)
+
+        expect(item1Button).toBeVisible()
+        expect(item1Button).toBeDisabled()
+
+        expect(item2Button).toBeVisible()
+        expect(item2Button).toBeEnabled()
+
+        expect(item3Button).toBeVisible()
+        expect(item3Button).toBeEnabled()
+
+        const mainsButton = screen.getByRole('button', {name: 'Mains'})
+
+        await user.click(mainsButton)
+
+        expect(item1Button).toBeVisible()
+        expect(item1Button).toBeEnabled()
+
+        expect(item2Button).toBeVisible()
+        expect(item2Button).toBeEnabled()
+
+        expect(item3Button).toBeVisible()
+        expect(item3Button).toBeEnabled()
+
+        const startersButton = screen.getByRole('button', {name: 'Starters'})
+
+        await user.click(startersButton)
+
+        expect(item1Button).toBeVisible()
+        expect(item1Button).toBeDisabled()
+
+        expect(item2Button).toBeVisible()
+        expect(item2Button).toBeEnabled()
+
+        expect(item3Button).toBeVisible()
+        expect(item3Button).toBeEnabled()
+    })
 })
