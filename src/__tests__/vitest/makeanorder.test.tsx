@@ -1,0 +1,7 @@
+import { describe, test, expect} from 'vitest' 
+import { render, screen, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import NewOrderInfoProvider from '../../assets/providers/NewOrderInfoProvider'
+import Menu from '../../assets/components/makeanorder/menu/Menu'
+import { menuItemsInfo } from '../../utils/variables'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
