@@ -1,4 +1,4 @@
-type Item = 'toast'|'salad'|'croquettes'|'pie'|'burger'|'spaghetti'|'ice cream'|'cookies'|'strawberries'
+export type Item = 'toast'|'salad'|'croquettes'|'pie'|'burger'|'spaghetti'|'ice cream'|'cookies'|'strawberries'
 
 export interface PreviousOrderType {
     id: number, 
