@@ -6,6 +6,7 @@ import {Routes, Route} from 'react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import PageProvider from './assets/providers/PageProvider'
 import PreviousOrderInfoProvider from './assets/providers/PreviousOrderInfoProvider'
+import NewOrderInfoProvider from './assets/providers/NewOrderInfoProvider'
 
 const queryClient = new QueryClient()
 
@@ -16,7 +17,7 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<PageProvider><PreviousOrderInfoProvider><PreviousOrders /></PreviousOrderInfoProvider></PageProvider>} />
-          <Route path='make-an-order' element={<MakeAnOrder />} />
+          <Route path='make-an-order' element={<NewOrderInfoProvider><MakeAnOrder /></NewOrderInfoProvider>} />
         </Route>
       </Routes>
     </QueryClientProvider>
