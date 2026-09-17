@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import NewOrderInfoProvider from '../../assets/providers/NewOrderInfoProvider'
 import Menu from '../../assets/components/makeanorder/menu/Menu'
 import Cart from '../../assets/components/makeanorder/cart/Cart'
+import MakeAnOrder from '../../assets/components/makeanorder/MakeAnOrder'
 import { menuItemsInfo } from '../../utils/variables'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
@@ -293,5 +294,56 @@ describe('Cart', () => {
         const totalSection = screen.getByTestId('order-total-section')
         const zeroTotal = within(totalSection).queryByText('£0.00')
         expect(zeroTotal).toBeVisible()
+    })
+})
+
+
+describe('MakeAnOrder', () => {
+    test('displays Cart correctly, when a menu item is added to the cart.', async () => {
+        
+        const user = userEvent.setup()
+        
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><NewOrderInfoProvider><MakeAnOrder /></NewOrderInfoProvider></QueryClientProvider>)
+        
+        const menuItem1 = screen.getByTestId('menu-item-1')
+        const menuItem1Button = within(menuItem1).getByRole('button', {name: 'Add to Cart'})
+
+        await user.click(menuItem1Button)
+
+        const cartItemsSection = screen.getByTestId('order-items-section')
+        const cartItemName = within(cartItemsSection).getByText('Toast:')
+        const cartItemPrice = within(cartItemsSection).getByText('£7.10')
+        const cartItemQuantity = within(cartItemsSection).getByText('-1+')
+        const wrongCartItemQuantity = within(cartItemsSection).queryByText('x1')
+        const cartItemMinusButton = within(cartItemsSection).getByRole('button', {name: '-'})
+        const cartItemPlusButton = within(cartItemsSection).getByRole('button', {name: '+'})
+        expect(cartItemName).toBeVisible()
+        expect(cartItemPrice).toBeVisible()
+        expect(cartItemQuantity).toBeVisible()
+        expect(wrongCartItemQuantity).not.toBeInTheDocument()
+        expect(cartItemMinusButton).toBeVisible()
+        expect(cartItemMinusButton).toBeEnabled()
+        expect(cartItemPlusButton).toBeVisible()
+        expect(cartItemPlusButton).toBeEnabled()
+
+        const subtotalSection = screen.getByTestId('order-subtotal-section')
+        const subtotal = within(subtotalSection).queryByText('£7.10')
+        const zeroSubtotal = within(subtotalSection).queryByText('£0.00')
+        expect(subtotal).toBeVisible()
+        expect(zeroSubtotal).not.toBeInTheDocument()
+        
+        const deliveryCostSection = screen.getByTestId('order-delivery-cost-section')
+        const deliveryCost = within(deliveryCostSection).queryByText('£2.20')
+        const zeroDeliveryCost = within(deliveryCostSection).queryByText('£0.00')
+        expect(deliveryCost).toBeVisible()
+        expect(zeroDeliveryCost).not.toBeInTheDocument()
+
+        const totalSection = screen.getByTestId('order-total-section')
+        const total = within(totalSection).queryByText('£9.30')
+        const zeroTotal = within(totalSection).queryByText('£0.00')
+        expect(total).toBeVisible()
+        expect(zeroTotal).not.toBeInTheDocument()
     })
 })
