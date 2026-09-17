@@ -346,4 +346,44 @@ describe('MakeAnOrder', () => {
         expect(total).toBeVisible()
         expect(zeroTotal).not.toBeInTheDocument()
     })
+
+
+    test('correctly displays Cart, when the only item in the cart is removed.', async () => {
+        
+        const user = userEvent.setup()
+        
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><NewOrderInfoProvider><MakeAnOrder /></NewOrderInfoProvider></QueryClientProvider>)
+        
+        const menuItem1 = screen.getByTestId('menu-item-1')
+        const menuItem1Button = within(menuItem1).getByRole('button', {name: 'Add to Cart'})
+
+        await user.click(menuItem1Button)
+
+        const cartItemMinusButton = screen.getByRole('button', {name: '-'})
+
+        await user.click(cartItemMinusButton)
+
+        const itemsSection = screen.getByTestId('order-items-section')
+        expect(itemsSection).toBeEmptyDOMElement()
+
+        const subtotalSection = screen.getByTestId('order-subtotal-section')
+        const subtotal = within(subtotalSection).queryByText('£7.10')
+        const zeroSubtotal = within(subtotalSection).queryByText('£0.00')
+        expect(subtotal).not.toBeInTheDocument()
+        expect(zeroSubtotal).toBeVisible()
+
+        const deliveryCostSection = screen.getByTestId('order-delivery-cost-section')
+        const deliveryCost = within(deliveryCostSection).queryByText('£2.20')
+        const zeroDeliveryCost = within(deliveryCostSection).queryByText('£0.00')
+        expect(deliveryCost).not.toBeInTheDocument()
+        expect(zeroDeliveryCost).toBeVisible()
+
+        const totalSection = screen.getByTestId('order-total-section')
+        const total = within(totalSection).queryByText('£9.30')
+        const zeroTotal = within(totalSection).queryByText('£0.00')
+        expect(total).not.toBeInTheDocument()
+        expect(zeroTotal).toBeVisible()
+    })
 })
