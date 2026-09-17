@@ -1,12 +1,12 @@
-import toastImg from '../images/toast.jpg'
-import saladImg from '../images/salad.jpg'
-import croquettesImg from '../images/croquettes.jpg'
-import pieImg from '../images/pie.jpg'
-import burgerImg from '../images/burger.jpg'
-import spaghettiImg from '../images/spaghetti.jpg'
-import iceCreamImg from '../images/ice_cream.jpg'
-import cookiesImg from '../images/cookies.jpg'
-import strawberriesImg from '../images/strawberries.jpg'
+import toastImg from '../assets/images/toast.jpg'
+import saladImg from '../assets/images/salad.jpg'
+import croquettesImg from '../assets/images/croquettes.jpg'
+import pieImg from '../assets/images/pie.jpg'
+import burgerImg from '../assets/images/burger.jpg'
+import spaghettiImg from '../assets/images/spaghetti.jpg'
+import iceCreamImg from '../assets/images/ice_cream.jpg'
+import cookiesImg from '../assets/images/cookies.jpg'
+import strawberriesImg from '../assets/images/strawberries.jpg'
 
 export const menuItemsInfo = {
     'toast': {description: 'Tomato and mozarella on toast.', price: 7.10, src: toastImg}, 
