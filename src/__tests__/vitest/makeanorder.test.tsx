@@ -3,6 +3,7 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import NewOrderInfoProvider from '../../assets/providers/NewOrderInfoProvider'
 import Menu from '../../assets/components/makeanorder/menu/Menu'
+import Cart from '../../assets/components/makeanorder/cart/Cart'
 import { menuItemsInfo } from '../../utils/variables'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
@@ -265,5 +266,32 @@ describe('Menu', () => {
 
         expect(item3Button).toBeVisible()
         expect(item3Button).toBeEnabled()
+    })
+})
+
+
+describe('Cart', () => {
+    test('successfully displays its starting content.', () => {
+        
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><NewOrderInfoProvider><Cart /></NewOrderInfoProvider></QueryClientProvider>)
+        
+        const itemsSection = screen.getByTestId('order-items-section')
+        expect(itemsSection).toBeEmptyDOMElement()
+
+        const subtotalSection = screen.getByTestId('order-subtotal-section')
+        const zeroSubtotal = within(subtotalSection).queryByText('£0.00')
+        expect(zeroSubtotal).toBeVisible()
+
+        const deliveryCostSection = screen.getByTestId('order-delivery-cost-section')
+        const deliveryCost = within(deliveryCostSection).queryByText('£2.20')
+        const zeroDeliveryCost = within(deliveryCostSection).queryByText('£0.00')
+        expect(deliveryCost).not.toBeInTheDocument()
+        expect(zeroDeliveryCost).toBeVisible()
+
+        const totalSection = screen.getByTestId('order-total-section')
+        const zeroTotal = within(totalSection).queryByText('£0.00')
+        expect(zeroTotal).toBeVisible()
     })
 })
