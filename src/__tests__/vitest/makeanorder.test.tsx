@@ -526,12 +526,34 @@ describe('MakeAnOrder', () => {
         const queryClient = new QueryClient()
 
         render(<QueryClientProvider client={queryClient}><NewOrderInfoProvider><MakeAnOrder /></NewOrderInfoProvider></QueryClientProvider>)
-        
+
         const cartItemsSection = screen.getByTestId('order-items-section')
         expect(cartItemsSection).toBeEmptyDOMElement()
 
         const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
         expect(makeOrderButton).toBeVisible()
         expect(makeOrderButton).toBeDisabled()
+    })
+
+
+    test('\'s \'Make Order\' button is enabled, when there are items in the cart.', async () => {
+
+        const user = userEvent.setup()
+
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><NewOrderInfoProvider><MakeAnOrder /></NewOrderInfoProvider></QueryClientProvider>)
+
+        const menuItem1 = screen.getByTestId('menu-item-1')
+        const menuItem1Button = within(menuItem1).getByRole('button', {name: 'Add to Cart'})
+
+        await user.click(menuItem1Button)
+        
+        const cartItemsSection = screen.getByTestId('order-items-section')
+        expect(cartItemsSection).toHaveTextContent(/^Toast: £7\.10-1\+$/)
+
+        const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
+        expect(makeOrderButton).toBeVisible()
+        expect(makeOrderButton).toBeEnabled()
     })
 })
