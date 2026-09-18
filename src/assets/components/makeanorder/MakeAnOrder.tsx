@@ -1,4 +1,5 @@
-import Menu from "./menu/Menu"
+import Menu from './menu/Menu'
+import Cart from './cart/Cart'
 
 export default function MakeAnOrder() {
 
@@ -7,6 +8,7 @@ export default function MakeAnOrder() {
         <h2>Make an Order</h2>
         <div>
             <Menu />
+            <Cart />
         </div>
         </>
     )
