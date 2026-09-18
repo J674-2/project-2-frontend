@@ -519,4 +519,19 @@ describe('MakeAnOrder', () => {
         expect(total).toBeVisible()
         expect(zeroTotal).not.toBeInTheDocument()
     })
+
+
+    test('\'s \'Make Order\' button is disabled, when there are no items in the cart.', () => {
+
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><NewOrderInfoProvider><MakeAnOrder /></NewOrderInfoProvider></QueryClientProvider>)
+        
+        const cartItemsSection = screen.getByTestId('order-items-section')
+        expect(cartItemsSection).toBeEmptyDOMElement()
+
+        const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
+        expect(makeOrderButton).toBeVisible()
+        expect(makeOrderButton).toBeDisabled()
+    })
 })
