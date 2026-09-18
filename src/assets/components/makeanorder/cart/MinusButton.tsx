@@ -2,23 +2,23 @@ import { useNewOrderInfo } from '../../../providers/NewOrderInfoProvider'
 
 export default function MinusButton({item, itemQuantity}: {item: string, itemQuantity: number}) {
     
-    const [mutation, newOrder, setNewOrder] = useNewOrderInfo()
+    const [newOrder, setNewOrder, mutation] = useNewOrderInfo()
     
     function handleClick() {
         if (itemQuantity == 1) {
-            for (const [index, currentItem] of newOrder.entries()) {
+            for (const [index, currentItem] of newOrder.order_items.entries()) {
                 if (currentItem.item == item) {
-                    const updatedItems = [...newOrder]
+                    const updatedItems = [...newOrder.order_items]
                     updatedItems.splice(index, 1)
-                    setNewOrder(updatedItems)
+                    setNewOrder({order_items: updatedItems})
                 }
             }
         } else {
-           for (const [index, currentItem] of newOrder.entries()) {
+           for (const [index, currentItem] of newOrder.order_items.entries()) {
                 if (currentItem.item == item) {
-                    const updatedItems = [...newOrder]
+                    const updatedItems = [...newOrder.order_items]
                     updatedItems[index].item_quantity = itemQuantity - 1
-                    setNewOrder(updatedItems)
+                    setNewOrder({order_items: updatedItems})
                 }
            } 
            
