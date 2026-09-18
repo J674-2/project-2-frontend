@@ -361,9 +361,13 @@ describe('MakeAnOrder', () => {
 
         await user.click(menuItem1Button)
 
+        expect(menuItem1Button).toBeDisabled()
+
         const cartItemMinusButton = screen.getByRole('button', {name: '-'})
 
         await user.click(cartItemMinusButton)
+
+        expect(menuItem1Button).toBeEnabled()
 
         const itemsSection = screen.getByTestId('order-items-section')
         expect(itemsSection).toBeEmptyDOMElement()
