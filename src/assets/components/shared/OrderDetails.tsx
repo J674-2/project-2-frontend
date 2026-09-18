@@ -11,7 +11,7 @@ export default function OrderDetails({version , formattedOrder}: {version: 'prev
         if (formattedOrder.orderItems[0] != undefined) {
             return (
                 <ul>
-                    {formattedOrder.orderItems.map((item, index) => <li data-testid={`order-item-${index + 1}`} key={item.item}><div>{item.item}: <span>£{item.price.toFixed(2)}</span></div><div>{version == 'previousOrder' ? 'x': <MinusButton item={item.item} itemQuantity={item.itemQuantity} />}{item.itemQuantity}{version == 'newOrder' && item.itemQuantity < 6 ? <PlusButton item={item.item} itemQuantity={item.itemQuantity} /> : ''}</div></li>)}
+                    {formattedOrder.orderItems.map((item, index) => <li data-testid={`order-item-${index + 1}`} key={item.item}><div>{item.item}: <span>£{item.price.toFixed(2)}</span></div><div>{version == 'previousOrder' ? 'x': <MinusButton item={item.item.toLowerCase()} itemQuantity={item.itemQuantity} />}{item.itemQuantity}{version == 'newOrder' && item.itemQuantity < 6 ? <PlusButton item={item.item.toLowerCase()} itemQuantity={item.itemQuantity} /> : ''}</div></li>)}
                 </ul>
             )
         }
