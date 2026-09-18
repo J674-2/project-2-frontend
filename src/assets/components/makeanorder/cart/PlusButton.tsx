@@ -2,14 +2,14 @@ import { useNewOrderInfo } from '../../../providers/NewOrderInfoProvider'
 
 export default function PlusButton({item, itemQuantity}: {item: string, itemQuantity: number}) {
     
-    const [mutation, newOrder, setNewOrder] = useNewOrderInfo()
+    const [newOrder, setNewOrder, mutation] = useNewOrderInfo()
 
     function handleClick() {
-        for (const [index, currentItem] of newOrder.entries()) {
+        for (const [index, currentItem] of newOrder.order_items.entries()) {
             if (currentItem.item == item) {
-                const updatedItems = [...newOrder]
+                const updatedItems = [...newOrder.order_items]
                 updatedItems[index].item_quantity = itemQuantity + 1
-                setNewOrder(updatedItems)
+                setNewOrder({order_items: updatedItems})
             }
         } 
         mutation.reset()
