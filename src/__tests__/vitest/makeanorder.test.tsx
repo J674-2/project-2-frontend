@@ -610,7 +610,7 @@ describe('MakeAnOrder', () => {
     })
 
 
-    test('correctly displays an error message, when order creation is unsuccessful.', async () => {
+    test('correctly displays an error message and does not reset the cart, when order creation is unsuccessful.', async () => {
 
         server.use(
             http.post('http://127.0.0.1:8000/api/orders', () => {
@@ -635,11 +635,34 @@ describe('MakeAnOrder', () => {
 
         expect(errorMessage).not.toBeInTheDocument()
 
+        const cartItemsSection = screen.getByTestId('order-items-section')
+        expect(cartItemsSection).toHaveTextContent(/^Toast: £7\.10-1\+$/)
+
         const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
 
         await user.click(makeOrderButton)
 
         expect(errorMessage).toBeVisible() 
+
+        expect(cartItemsSection).toHaveTextContent(/^Toast: £7\.10-1\+$/)
+
+        const subtotalSection = screen.getByTestId('order-subtotal-section')
+        const subtotal = within(subtotalSection).queryByText('£7.10')
+        const zeroSubtotal = within(subtotalSection).queryByText('£0.00')
+        expect(subtotal).toBeVisible()
+        expect(zeroSubtotal).not.toBeInTheDocument()
+        
+        const deliveryCostSection = screen.getByTestId('order-delivery-cost-section')
+        const deliveryCost = within(deliveryCostSection).queryByText('£2.20')
+        const zeroDeliveryCost = within(deliveryCostSection).queryByText('£0.00')
+        expect(deliveryCost).toBeVisible()
+        expect(zeroDeliveryCost).not.toBeInTheDocument()
+
+        const totalSection = screen.getByTestId('order-total-section')
+        const total = within(totalSection).queryByText('£9.30')
+        const zeroTotal = within(totalSection).queryByText('£0.00')
+        expect(total).toBeVisible()
+        expect(zeroTotal).not.toBeInTheDocument()
     })
 
 
