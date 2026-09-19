@@ -560,7 +560,7 @@ describe('MakeAnOrder', () => {
     })
 
 
-    test('correctly displays a success message, when an order is successfully made.', async () => {
+    test('correctly displays a success message and resets the cart, when an order is successfully made.', async () => {
 
         const user = userEvent.setup()
 
@@ -579,11 +579,34 @@ describe('MakeAnOrder', () => {
 
         expect(successMessage).not.toBeInTheDocument()
 
+        const cartItemsSection = screen.getByTestId('order-items-section')
+        expect(cartItemsSection).toHaveTextContent(/^Toast: £7\.10-1\+$/)
+
         const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
 
         await user.click(makeOrderButton)
 
         expect(successMessage).toBeVisible()
+
+        expect(cartItemsSection).toBeEmptyDOMElement()
+
+        const subtotalSection = screen.getByTestId('order-subtotal-section')
+        const subtotal = within(subtotalSection).queryByText('£7.10')
+        const zeroSubtotal = within(subtotalSection).queryByText('£0.00')
+        expect(subtotal).not.toBeInTheDocument()
+        expect(zeroSubtotal).toBeVisible()
+        
+        const deliveryCostSection = screen.getByTestId('order-delivery-cost-section')
+        const deliveryCost = within(deliveryCostSection).queryByText('£2.20')
+        const zeroDeliveryCost = within(deliveryCostSection).queryByText('£0.00')
+        expect(deliveryCost).not.toBeInTheDocument()
+        expect(zeroDeliveryCost).toBeVisible()
+
+        const totalSection = screen.getByTestId('order-total-section')
+        const total = within(totalSection).queryByText('£9.30')
+        const zeroTotal = within(totalSection).queryByText('£0.00')
+        expect(total).not.toBeInTheDocument()
+        expect(zeroTotal).toBeVisible()
     })
 
 
