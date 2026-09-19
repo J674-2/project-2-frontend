@@ -87,4 +87,17 @@ export const handlers = [
             })
         } 
     }),
+    http.post('http://127.0.0.1:8000/api/orders', () => {
+        return HttpResponse.json({
+                        'id': 1,
+                        'date_time': '2026-09-07T08:50:32.234494Z',
+                        'order_items': [
+                            {
+                                'id': 1,
+                                'item': 'toast',
+                                'item_quantity': 1
+                            }
+                        ]
+                    }, {status: 201})
+    })
 ]
