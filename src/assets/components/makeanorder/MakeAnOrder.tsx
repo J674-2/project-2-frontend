@@ -14,6 +14,16 @@ export default function MakeAnOrder() {
         }
     }
 
+    function messageContent() {
+        if (mutation.isPending) {
+            return <p>Processing order...</p>
+        } else if (mutation.isError) {
+            return <p>Order creation was unsuccessful.</p>
+        } else if (mutation.isSuccess){
+            return <p>Order creation was successful.</p>
+        }
+    }
+
     return (
         <>
         <h2>Make an Order</h2>
@@ -23,6 +33,9 @@ export default function MakeAnOrder() {
         </div>
         <div>
             <button disabled={isDisabled()} onClick={() => mutation.mutate()}>Make Order</button>
+        </div>
+        <div>
+            {messageContent()}
         </div>
         </>
     )
