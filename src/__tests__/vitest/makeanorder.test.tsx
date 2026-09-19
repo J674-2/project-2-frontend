@@ -7,6 +7,8 @@ import Cart from '../../assets/components/makeanorder/cart/Cart'
 import MakeAnOrder from '../../assets/components/makeanorder/MakeAnOrder'
 import { menuItemsInfo } from '../../utils/variables'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { server } from '../../mocks/node'
+import { http, HttpResponse, delay } from 'msw'
 
 describe('Menu', () => {
     test('correctly displays, when the starters need to be displayed.', () => {
@@ -518,5 +520,293 @@ describe('MakeAnOrder', () => {
         const zeroTotal = within(totalSection).queryByText('£0.00')
         expect(total).toBeVisible()
         expect(zeroTotal).not.toBeInTheDocument()
+    })
+
+
+    test('\'s \'Make Order\' button is disabled, when there are no items in the cart.', () => {
+
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><NewOrderInfoProvider><MakeAnOrder /></NewOrderInfoProvider></QueryClientProvider>)
+
+        const cartItemsSection = screen.getByTestId('order-items-section')
+        expect(cartItemsSection).toBeEmptyDOMElement()
+
+        const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
+        expect(makeOrderButton).toBeVisible()
+        expect(makeOrderButton).toBeDisabled()
+    })
+
+
+    test('\'s \'Make Order\' button is enabled, when there are items in the cart.', async () => {
+
+        const user = userEvent.setup()
+
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><NewOrderInfoProvider><MakeAnOrder /></NewOrderInfoProvider></QueryClientProvider>)
+
+        const menuItem1 = screen.getByTestId('menu-item-1')
+        const menuItem1Button = within(menuItem1).getByRole('button', {name: 'Add to Cart'})
+
+        await user.click(menuItem1Button)
+        
+        const cartItemsSection = screen.getByTestId('order-items-section')
+        expect(cartItemsSection).toHaveTextContent(/^Toast: £7\.10-1\+$/)
+
+        const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
+        expect(makeOrderButton).toBeVisible()
+        expect(makeOrderButton).toBeEnabled()
+    })
+
+
+    test('correctly displays pending message, when the mutation is pending.', async () => {
+
+        server.use(
+            http.post('http://127.0.0.1:8000/api/orders', async () => {
+
+                await delay(400)
+
+                return HttpResponse.json({
+                    'id': 1,
+                    'date_time': '2026-09-07T08:50:32.234494Z',
+                    'order_items': [
+                        {
+                            'id': 1,
+                            'item': 'toast',
+                            'item_quantity': 1
+                        }
+                    ]
+                }, {status: 201})
+            })
+        )
+
+        const user = userEvent.setup()
+
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><NewOrderInfoProvider><MakeAnOrder /></NewOrderInfoProvider></QueryClientProvider>)
+
+        const pendingMessage = screen.queryByText('Processing order...')
+
+        expect(pendingMessage).not.toBeInTheDocument()
+
+        const menuItem1 = screen.getByTestId('menu-item-1')
+        const menuItem1Button = within(menuItem1).getByRole('button', {name: 'Add to Cart'})
+
+        await user.click(menuItem1Button)
+
+        expect(pendingMessage).not.toBeInTheDocument()
+
+        const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
+
+        await user.click(makeOrderButton)
+
+        expect(pendingMessage).toBeVisible()
+    })
+
+
+    test('correctly displays a success message and resets the cart, when an order is successfully made.', async () => {
+
+        const user = userEvent.setup()
+
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><NewOrderInfoProvider><MakeAnOrder /></NewOrderInfoProvider></QueryClientProvider>)
+
+        const successMessage = screen.queryByText('Order creation was successful.')
+
+        expect(successMessage).not.toBeInTheDocument()
+
+        const menuItem1 = screen.getByTestId('menu-item-1')
+        const menuItem1Button = within(menuItem1).getByRole('button', {name: 'Add to Cart'})
+
+        await user.click(menuItem1Button)
+
+        expect(successMessage).not.toBeInTheDocument()
+
+        const cartItemsSection = screen.getByTestId('order-items-section')
+        expect(cartItemsSection).toHaveTextContent(/^Toast: £7\.10-1\+$/)
+
+        const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
+
+        await user.click(makeOrderButton)
+
+        expect(successMessage).toBeVisible()
+
+        expect(cartItemsSection).toBeEmptyDOMElement()
+
+        const subtotalSection = screen.getByTestId('order-subtotal-section')
+        const subtotal = within(subtotalSection).queryByText('£7.10')
+        const zeroSubtotal = within(subtotalSection).queryByText('£0.00')
+        expect(subtotal).not.toBeInTheDocument()
+        expect(zeroSubtotal).toBeVisible()
+        
+        const deliveryCostSection = screen.getByTestId('order-delivery-cost-section')
+        const deliveryCost = within(deliveryCostSection).queryByText('£2.20')
+        const zeroDeliveryCost = within(deliveryCostSection).queryByText('£0.00')
+        expect(deliveryCost).not.toBeInTheDocument()
+        expect(zeroDeliveryCost).toBeVisible()
+
+        const totalSection = screen.getByTestId('order-total-section')
+        const total = within(totalSection).queryByText('£9.30')
+        const zeroTotal = within(totalSection).queryByText('£0.00')
+        expect(total).not.toBeInTheDocument()
+        expect(zeroTotal).toBeVisible()
+    })
+
+
+    test('correctly displays an error message and does not reset the cart, when order creation is unsuccessful.', async () => {
+
+        server.use(
+            http.post('http://127.0.0.1:8000/api/orders', () => {
+                return HttpResponse.json(null, {status: 500})
+            })
+        )
+
+        const user = userEvent.setup()
+
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><NewOrderInfoProvider><MakeAnOrder /></NewOrderInfoProvider></QueryClientProvider>)
+
+        const errorMessage = screen.queryByText('Order creation was unsuccessful.')
+
+        expect(errorMessage).not.toBeInTheDocument()
+
+        const menuItem1 = screen.getByTestId('menu-item-1')
+        const menuItem1Button = within(menuItem1).getByRole('button', {name: 'Add to Cart'})
+
+        await user.click(menuItem1Button)
+
+        expect(errorMessage).not.toBeInTheDocument()
+
+        const cartItemsSection = screen.getByTestId('order-items-section')
+        expect(cartItemsSection).toHaveTextContent(/^Toast: £7\.10-1\+$/)
+
+        const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
+
+        await user.click(makeOrderButton)
+
+        expect(errorMessage).toBeVisible() 
+
+        expect(cartItemsSection).toHaveTextContent(/^Toast: £7\.10-1\+$/)
+
+        const subtotalSection = screen.getByTestId('order-subtotal-section')
+        const subtotal = within(subtotalSection).queryByText('£7.10')
+        const zeroSubtotal = within(subtotalSection).queryByText('£0.00')
+        expect(subtotal).toBeVisible()
+        expect(zeroSubtotal).not.toBeInTheDocument()
+        
+        const deliveryCostSection = screen.getByTestId('order-delivery-cost-section')
+        const deliveryCost = within(deliveryCostSection).queryByText('£2.20')
+        const zeroDeliveryCost = within(deliveryCostSection).queryByText('£0.00')
+        expect(deliveryCost).toBeVisible()
+        expect(zeroDeliveryCost).not.toBeInTheDocument()
+
+        const totalSection = screen.getByTestId('order-total-section')
+        const total = within(totalSection).queryByText('£9.30')
+        const zeroTotal = within(totalSection).queryByText('£0.00')
+        expect(total).toBeVisible()
+        expect(zeroTotal).not.toBeInTheDocument()
+    })
+
+
+    test('correctly resets mutation state, when an \'Add to Cart\' button is clicked.', async () => {
+
+        const user = userEvent.setup()
+
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><NewOrderInfoProvider><MakeAnOrder /></NewOrderInfoProvider></QueryClientProvider>)
+
+        const menuItem1 = screen.getByTestId('menu-item-1')
+        const menuItem1Button = within(menuItem1).getByRole('button', {name: 'Add to Cart'})
+
+        await user.click(menuItem1Button)
+
+        const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
+
+        await user.click(makeOrderButton)
+
+        const successMessage = screen.queryByText('Order creation was successful.')
+
+        expect(successMessage).toBeVisible()
+
+        await user.click(menuItem1Button)
+
+        expect(successMessage).not.toBeInTheDocument()
+    })
+
+
+    test('correctly resets mutation state, when a \'-\' button is clicked.', async () => {
+        
+        server.use(
+            http.post('http://127.0.0.1:8000/api/orders', () => {
+                return HttpResponse.json(null, {status: 500})
+            })
+        )
+
+        const user = userEvent.setup()
+
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><NewOrderInfoProvider><MakeAnOrder /></NewOrderInfoProvider></QueryClientProvider>)
+
+        const menuItem1 = screen.getByTestId('menu-item-1')
+        const menuItem1Button = within(menuItem1).getByRole('button', {name: 'Add to Cart'})
+
+        await user.click(menuItem1Button)
+
+        const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
+
+        await user.click(makeOrderButton)
+
+        const errorMessage = screen.queryByText('Order creation was unsuccessful.')
+
+        expect(errorMessage).toBeVisible() 
+
+        const cartItemsSection = screen.getByTestId('order-items-section')
+        const cartItemMinusButton = within(cartItemsSection).getByRole('button', {name: '-'})
+        
+        await user.click(cartItemMinusButton)
+
+        expect(errorMessage).not.toBeInTheDocument()
+    })
+
+
+    test('correctly resets mutation state, when a \'+\' button is clicked.', async () => {
+        
+        server.use(
+            http.post('http://127.0.0.1:8000/api/orders', () => {
+                return HttpResponse.json(null, {status: 500})
+            })
+        )
+
+        const user = userEvent.setup()
+
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><NewOrderInfoProvider><MakeAnOrder /></NewOrderInfoProvider></QueryClientProvider>)
+
+        const menuItem1 = screen.getByTestId('menu-item-1')
+        const menuItem1Button = within(menuItem1).getByRole('button', {name: 'Add to Cart'})
+
+        await user.click(menuItem1Button)
+
+        const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
+
+        await user.click(makeOrderButton)
+
+        const errorMessage = screen.queryByText('Order creation was unsuccessful.')
+
+        expect(errorMessage).toBeVisible() 
+
+        const cartItemsSection = screen.getByTestId('order-items-section')
+        const cartItemPlusButton = within(cartItemsSection).getByRole('button', {name: '+'})
+        
+        await user.click(cartItemPlusButton)
+
+        expect(errorMessage).not.toBeInTheDocument()
     })
 })
