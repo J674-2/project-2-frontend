@@ -8,7 +8,7 @@ import MakeAnOrder from '../../assets/components/makeanorder/MakeAnOrder'
 import { menuItemsInfo } from '../../utils/variables'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { server } from '../../mocks/node'
-import { http, HttpResponse } from 'msw'
+import { http, HttpResponse, delay } from 'msw'
 
 describe('Menu', () => {
     test('correctly displays, when the starters need to be displayed.', () => {
@@ -557,6 +557,52 @@ describe('MakeAnOrder', () => {
         const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
         expect(makeOrderButton).toBeVisible()
         expect(makeOrderButton).toBeEnabled()
+    })
+
+
+    test('correctly displays pending message, when the mutation is pending.', async () => {
+
+        server.use(
+            http.post('http://127.0.0.1:8000/api/orders', async () => {
+
+                await delay(400)
+
+                return HttpResponse.json({
+                    'id': 1,
+                    'date_time': '2026-09-07T08:50:32.234494Z',
+                    'order_items': [
+                        {
+                            'id': 1,
+                            'item': 'toast',
+                            'item_quantity': 1
+                        }
+                    ]
+                }, {status: 201})
+            })
+        )
+
+        const user = userEvent.setup()
+
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><NewOrderInfoProvider><MakeAnOrder /></NewOrderInfoProvider></QueryClientProvider>)
+
+        const pendingMessage = screen.queryByText('Processing order...')
+
+        expect(pendingMessage).not.toBeInTheDocument()
+
+        const menuItem1 = screen.getByTestId('menu-item-1')
+        const menuItem1Button = within(menuItem1).getByRole('button', {name: 'Add to Cart'})
+
+        await user.click(menuItem1Button)
+
+        expect(pendingMessage).not.toBeInTheDocument()
+
+        const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
+
+        await user.click(makeOrderButton)
+
+        expect(pendingMessage).toBeVisible()
     })
 
 
