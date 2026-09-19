@@ -618,4 +618,31 @@ describe('MakeAnOrder', () => {
 
         expect(errorMessage).toBeVisible() 
     })
+
+
+    test('correctly resets mutation state, when an \'Add to Cart\' button is clicked.', async () => {
+
+        const user = userEvent.setup()
+
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><NewOrderInfoProvider><MakeAnOrder /></NewOrderInfoProvider></QueryClientProvider>)
+
+        const menuItem1 = screen.getByTestId('menu-item-1')
+        const menuItem1Button = within(menuItem1).getByRole('button', {name: 'Add to Cart'})
+
+        await user.click(menuItem1Button)
+
+        const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
+
+        await user.click(makeOrderButton)
+
+        const successMessage = screen.queryByText('Order creation was successful.')
+
+        expect(successMessage).toBeVisible()
+
+        await user.click(menuItem1Button)
+
+        expect(successMessage).not.toBeInTheDocument()
+    })
 })
