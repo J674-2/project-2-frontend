@@ -645,4 +645,40 @@ describe('MakeAnOrder', () => {
 
         expect(successMessage).not.toBeInTheDocument()
     })
+
+
+    test('correctly resets mutation state, when a \'-\' button is clicked.', async () => {
+        
+        server.use(
+            http.post('http://127.0.0.1:8000/api/orders', () => {
+                return HttpResponse.json(null, {status: 500})
+            })
+        )
+
+        const user = userEvent.setup()
+
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><NewOrderInfoProvider><MakeAnOrder /></NewOrderInfoProvider></QueryClientProvider>)
+
+        const menuItem1 = screen.getByTestId('menu-item-1')
+        const menuItem1Button = within(menuItem1).getByRole('button', {name: 'Add to Cart'})
+
+        await user.click(menuItem1Button)
+
+        const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
+
+        await user.click(makeOrderButton)
+
+        const errorMessage = screen.queryByText('Order creation was unsuccessful.')
+
+        expect(errorMessage).toBeVisible() 
+
+        const cartItemsSection = screen.getByTestId('order-items-section')
+        const cartItemMinusButton = within(cartItemsSection).getByRole('button', {name: '-'})
+        
+        await user.click(cartItemMinusButton)
+
+        expect(errorMessage).not.toBeInTheDocument()
+    })
 })
