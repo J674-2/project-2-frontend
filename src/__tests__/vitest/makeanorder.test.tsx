@@ -7,6 +7,8 @@ import Cart from '../../assets/components/makeanorder/cart/Cart'
 import MakeAnOrder from '../../assets/components/makeanorder/MakeAnOrder'
 import { menuItemsInfo } from '../../utils/variables'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { server } from '../../mocks/node'
+import { http, HttpResponse } from 'msw'
 
 describe('Menu', () => {
     test('correctly displays, when the starters need to be displayed.', () => {
@@ -582,5 +584,38 @@ describe('MakeAnOrder', () => {
         await user.click(makeOrderButton)
 
         expect(successMessage).toBeVisible()
+    })
+
+
+    test('correctly displays an error message, when order creation is unsuccessful.', async () => {
+
+        server.use(
+            http.post('http://127.0.0.1:8000/api/orders', () => {
+                return HttpResponse.json(null, {status: 500})
+            })
+        )
+
+        const user = userEvent.setup()
+
+        const queryClient = new QueryClient()
+
+        render(<QueryClientProvider client={queryClient}><NewOrderInfoProvider><MakeAnOrder /></NewOrderInfoProvider></QueryClientProvider>)
+
+        const errorMessage = screen.queryByText('Order creation was unsuccessful.')
+
+        expect(errorMessage).not.toBeInTheDocument()
+
+        const menuItem1 = screen.getByTestId('menu-item-1')
+        const menuItem1Button = within(menuItem1).getByRole('button', {name: 'Add to Cart'})
+
+        await user.click(menuItem1Button)
+
+        expect(errorMessage).not.toBeInTheDocument()
+
+        const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
+
+        await user.click(makeOrderButton)
+
+        expect(errorMessage).toBeVisible() 
     })
 })
