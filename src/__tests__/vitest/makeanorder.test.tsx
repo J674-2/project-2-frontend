@@ -690,7 +690,9 @@ describe('MakeAnOrder', () => {
 
         await user.click(makeOrderButton)
 
-        expect(errorMessage).toBeVisible() 
+        const errorMessageAwait = await screen.findByText('Order creation was unsuccessful.')
+
+        expect(errorMessageAwait).toBeVisible() 
 
         expect(cartItemsSection).toHaveTextContent(/^Toast: £7\.10-1\+$/)
 
