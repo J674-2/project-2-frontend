@@ -602,7 +602,9 @@ describe('MakeAnOrder', () => {
 
         await user.click(makeOrderButton)
 
-        expect(pendingMessage).toBeVisible()
+        const pendingMessageAwait = await screen.findByText('Processing order...')
+
+        expect(pendingMessageAwait).toBeVisible()
     })
 
 
