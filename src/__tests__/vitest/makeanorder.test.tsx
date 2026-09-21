@@ -806,14 +806,16 @@ describe('MakeAnOrder', () => {
 
         await user.click(makeOrderButton)
 
-        const errorMessage = screen.queryByText('Order creation was unsuccessful.')
+        const errorMessageAwait = await screen.findByText('Order creation was unsuccessful.')
 
-        expect(errorMessage).toBeVisible() 
+        expect(errorMessageAwait).toBeVisible() 
 
         const cartItemsSection = screen.getByTestId('order-items-section')
         const cartItemPlusButton = within(cartItemsSection).getByRole('button', {name: '+'})
         
         await user.click(cartItemPlusButton)
+
+        const errorMessage = screen.queryByText('Order creation was unsuccessful.')
 
         expect(errorMessage).not.toBeInTheDocument()
     })
