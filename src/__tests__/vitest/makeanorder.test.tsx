@@ -632,7 +632,9 @@ describe('MakeAnOrder', () => {
 
         await user.click(makeOrderButton)
 
-        expect(successMessage).toBeVisible()
+        const successMessageAwait = await screen.findByText('Order creation was successful.')
+
+        expect(successMessageAwait).toBeVisible()
 
         expect(cartItemsSection).toBeEmptyDOMElement()
 
