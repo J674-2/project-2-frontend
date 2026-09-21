@@ -733,11 +733,13 @@ describe('MakeAnOrder', () => {
 
         await user.click(makeOrderButton)
 
-        const successMessage = screen.queryByText('Order creation was successful.')
+        const successMessageAwait = await screen.findByText('Order creation was successful.')
 
-        expect(successMessage).toBeVisible()
+        expect(successMessageAwait).toBeVisible()
 
         await user.click(menuItem1Button)
+
+        const successMessage = screen.queryByText('Order creation was successful.')
 
         expect(successMessage).not.toBeInTheDocument()
     })
