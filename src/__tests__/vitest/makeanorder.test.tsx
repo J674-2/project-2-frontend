@@ -602,7 +602,9 @@ describe('MakeAnOrder', () => {
 
         await user.click(makeOrderButton)
 
-        expect(pendingMessage).toBeVisible()
+        const pendingMessageAwait = await screen.findByText('Processing order...')
+
+        expect(pendingMessageAwait).toBeVisible()
     })
 
 
@@ -632,7 +634,9 @@ describe('MakeAnOrder', () => {
 
         await user.click(makeOrderButton)
 
-        expect(successMessage).toBeVisible()
+        const successMessageAwait = await screen.findByText('Order creation was successful.')
+
+        expect(successMessageAwait).toBeVisible()
 
         expect(cartItemsSection).toBeEmptyDOMElement()
 
@@ -688,7 +692,9 @@ describe('MakeAnOrder', () => {
 
         await user.click(makeOrderButton)
 
-        expect(errorMessage).toBeVisible() 
+        const errorMessageAwait = await screen.findByText('Order creation was unsuccessful.')
+
+        expect(errorMessageAwait).toBeVisible() 
 
         expect(cartItemsSection).toHaveTextContent(/^Toast: £7\.10-1\+$/)
 
@@ -729,11 +735,13 @@ describe('MakeAnOrder', () => {
 
         await user.click(makeOrderButton)
 
-        const successMessage = screen.queryByText('Order creation was successful.')
+        const successMessageAwait = await screen.findByText('Order creation was successful.')
 
-        expect(successMessage).toBeVisible()
+        expect(successMessageAwait).toBeVisible()
 
         await user.click(menuItem1Button)
+
+        const successMessage = screen.queryByText('Order creation was successful.')
 
         expect(successMessage).not.toBeInTheDocument()
     })
@@ -762,14 +770,16 @@ describe('MakeAnOrder', () => {
 
         await user.click(makeOrderButton)
 
-        const errorMessage = screen.queryByText('Order creation was unsuccessful.')
+        const errorMessageAwait = await screen.findByText('Order creation was unsuccessful.')
 
-        expect(errorMessage).toBeVisible() 
+        expect(errorMessageAwait).toBeVisible() 
 
         const cartItemsSection = screen.getByTestId('order-items-section')
         const cartItemMinusButton = within(cartItemsSection).getByRole('button', {name: '-'})
         
         await user.click(cartItemMinusButton)
+
+        const errorMessage = screen.queryByText('Order creation was unsuccessful.')
 
         expect(errorMessage).not.toBeInTheDocument()
     })
@@ -798,14 +808,16 @@ describe('MakeAnOrder', () => {
 
         await user.click(makeOrderButton)
 
-        const errorMessage = screen.queryByText('Order creation was unsuccessful.')
+        const errorMessageAwait = await screen.findByText('Order creation was unsuccessful.')
 
-        expect(errorMessage).toBeVisible() 
+        expect(errorMessageAwait).toBeVisible() 
 
         const cartItemsSection = screen.getByTestId('order-items-section')
         const cartItemPlusButton = within(cartItemsSection).getByRole('button', {name: '+'})
         
         await user.click(cartItemPlusButton)
+
+        const errorMessage = screen.queryByText('Order creation was unsuccessful.')
 
         expect(errorMessage).not.toBeInTheDocument()
     })
