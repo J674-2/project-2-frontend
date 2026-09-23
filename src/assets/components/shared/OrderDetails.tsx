@@ -11,7 +11,19 @@ export default function OrderDetails({version , formattedOrder}: {version: 'prev
         if (formattedOrder.orderItems[0] != undefined) {
             return (
                 <ul>
-                    {formattedOrder.orderItems.map((item, index) => <li data-testid={`order-item-${index + 1}`} key={item.item}><span>{item.item}:</span><span>£{item.price.toFixed(2)}</span><span>{version == 'previousOrder' ? 'x': <MinusButton item={item.item.toLowerCase()} itemQuantity={item.itemQuantity} />}{item.itemQuantity}{version == 'newOrder' && item.itemQuantity < 6 ? <PlusButton item={item.item.toLowerCase()} itemQuantity={item.itemQuantity} /> : ''}</span></li>)}
+                    {formattedOrder.orderItems.map((item, index) => {
+                        return (
+                            <li data-testid={`order-item-${index + 1}`} key={item.item}>
+                                <span>{item.item}:</span>
+                                <span>£{item.price.toFixed(2)}</span>
+                                <span>
+                                    {version == 'previousOrder' ? 'x': <MinusButton item={item.item.toLowerCase()} itemQuantity={item.itemQuantity} />}
+                                    {item.itemQuantity}
+                                    {version == 'newOrder' && item.itemQuantity < 6 ? <PlusButton item={item.item.toLowerCase()} itemQuantity={item.itemQuantity} /> : ''}
+                                </span>
+                            </li>
+                        )
+                    })}
                 </ul>
             )
         }
