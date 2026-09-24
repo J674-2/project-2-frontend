@@ -55,14 +55,14 @@ export default function OrdersPagination() {
     }
 
     return (
-        <div>
-            <div>
+        <div className='py-6 flex gap-2.5 justify-center items-center border-t'>
+            <div className='flex-1 flex justify-end'>
                 <button disabled={isPreviousPageButtonDisabled()} onClick={() => setPage(page - 1)}>Previous Page</button>
             </div>
             <div>
                 {pageCounter()}
             </div>
-            <div>
+            <div className='flex-1 flex justify-start'>
                 <button disabled={isNextPageButtonDisabled()} onClick={() => setPage(page + 1)}>Next Page</button>
             </div>
         </div>
