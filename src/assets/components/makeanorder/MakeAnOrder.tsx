@@ -26,7 +26,16 @@ export default function MakeAnOrder() {
 
     return (
         <>
-        <h2>Make an Order</h2>
+        <div>
+            <h2>Make an Order</h2>
+        </div>
+        <div>
+            <p>
+                Here you will be able to make an order, by adding items from the menu to the cart and then adjusting the quantity of each item in the cart. 
+                When choosing the quantity, there is a limit of 6 per item. 
+                Lastly, click on the 'Make Order' button to submit the order. 
+            </p>
+        </div>
         <div>
             <Menu />
             <Cart />
