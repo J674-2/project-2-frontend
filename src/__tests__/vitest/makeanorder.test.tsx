@@ -320,7 +320,7 @@ describe('MakeAnOrder', () => {
         const cartItemQuantity = within(cartItemsSection).getByText('1')
         const cartItemMinusButton = within(cartItemsSection).getByRole('button', {name: '-'})
         const cartItemPlusButton = within(cartItemsSection).getByRole('button', {name: '+'})
-        expect(cartItemsSection).toHaveTextContent(/^Toast: £7\.10-1\+$/)
+        expect(cartItemsSection).toHaveTextContent(/^Toast:£7\.10-1\+$/)
         expect(cartItemName).toBeVisible()
         expect(cartItemPrice).toBeVisible()
         expect(cartItemQuantity).toBeVisible()
@@ -415,7 +415,7 @@ describe('MakeAnOrder', () => {
         const cartItemPrice = within(cartItemsSection).getByText('£7.10')
         const cartItemQuantity1 = within(cartItemsSection).getByText('2')
         const cartItemMinusButton = within(cartItemsSection).getByRole('button', {name: '-'})
-        expect(cartItemsSection).toHaveTextContent(/^Toast: £7\.10-2\+$/)
+        expect(cartItemsSection).toHaveTextContent(/^Toast:£7\.10-2\+$/)
         expect(cartItemName).toBeVisible()
         expect(cartItemPrice).toBeVisible()
         expect(cartItemQuantity1).toBeVisible()
@@ -448,7 +448,7 @@ describe('MakeAnOrder', () => {
         await user.click(cartItemPlusButton)
 
         const cartItemQuantity2 = within(cartItemsSection).getByText('6')
-        expect(cartItemsSection).toHaveTextContent(/^Toast: £7\.10-6$/)
+        expect(cartItemsSection).toHaveTextContent(/^Toast:£7\.10-6$/)
         expect(cartItemName).toBeVisible()
         expect(cartItemPrice).toBeVisible()
         expect(cartItemQuantity2).toBeVisible()
@@ -494,7 +494,7 @@ describe('MakeAnOrder', () => {
         const cartItemName = within(cartItemsSection).getByText('Toast:')
         const cartItemPrice = within(cartItemsSection).getByText('£7.10')
         const cartItemQuantity = within(cartItemsSection).getByText('1')
-        expect(cartItemsSection).toHaveTextContent(/^Toast: £7\.10-1\+$/)
+        expect(cartItemsSection).toHaveTextContent(/^Toast:£7\.10-1\+$/)
         expect(cartItemName).toBeVisible()
         expect(cartItemPrice).toBeVisible()
         expect(cartItemQuantity).toBeVisible()
@@ -552,7 +552,7 @@ describe('MakeAnOrder', () => {
         await user.click(menuItem1Button)
         
         const cartItemsSection = screen.getByTestId('order-items-section')
-        expect(cartItemsSection).toHaveTextContent(/^Toast: £7\.10-1\+$/)
+        expect(cartItemsSection).toHaveTextContent(/^Toast:£7\.10-1\+$/)
 
         const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
         expect(makeOrderButton).toBeVisible()
@@ -628,7 +628,7 @@ describe('MakeAnOrder', () => {
         expect(successMessage).not.toBeInTheDocument()
 
         const cartItemsSection = screen.getByTestId('order-items-section')
-        expect(cartItemsSection).toHaveTextContent(/^Toast: £7\.10-1\+$/)
+        expect(cartItemsSection).toHaveTextContent(/^Toast:£7\.10-1\+$/)
 
         const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
 
@@ -686,7 +686,7 @@ describe('MakeAnOrder', () => {
         expect(errorMessage).not.toBeInTheDocument()
 
         const cartItemsSection = screen.getByTestId('order-items-section')
-        expect(cartItemsSection).toHaveTextContent(/^Toast: £7\.10-1\+$/)
+        expect(cartItemsSection).toHaveTextContent(/^Toast:£7\.10-1\+$/)
 
         const makeOrderButton = screen.getByRole('button', {name: 'Make Order'})
 
@@ -696,7 +696,7 @@ describe('MakeAnOrder', () => {
 
         expect(errorMessageAwait).toBeVisible() 
 
-        expect(cartItemsSection).toHaveTextContent(/^Toast: £7\.10-1\+$/)
+        expect(cartItemsSection).toHaveTextContent(/^Toast:£7\.10-1\+$/)
 
         const subtotalSection = screen.getByTestId('order-subtotal-section')
         const subtotal = within(subtotalSection).queryByText('£7.10')
