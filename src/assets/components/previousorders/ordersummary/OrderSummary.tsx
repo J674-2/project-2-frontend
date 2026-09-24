@@ -42,11 +42,11 @@ export default function OrderSummary() {
 
     return (
         <section>
-            <div>
+            <div className='flex flex-col items-center'>
                 <div>
                     <h3>Order Summary</h3>
                 </div>
-                <div data-testid='order-date-time-section'>
+                <div data-testid='order-date-time-section' className='pt-3 empty:pt-0 pb-6 flex gap-3'>
                     {dateTimeContent()}   
                 </div>
             </div>
