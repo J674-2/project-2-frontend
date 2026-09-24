@@ -39,14 +39,17 @@ export default function OrderDetails({version , formattedOrder}: {version: 'prev
             </div>
             <div>
                 <div data-testid='order-subtotal-section'>
-                    <h4>Subtotal: </h4><p>{version == 'loading' ? 'Loading...' : ('£' + formattedOrder.subtotal.toFixed(2))}</p>
+                    <h4>Subtotal: </h4>
+                    {version == 'loading' ? <p>Loading...</p> : <p>{'£' + formattedOrder.subtotal.toFixed(2)}</p>}
                 </div>
                 <div data-testid='order-delivery-cost-section'>
-                    <h4>Delivery cost: </h4><p>{version == 'loading' ? 'Loading...' : (formattedOrder.subtotal == 0 ? '£0.00' : '£2.20')}</p>
+                    <h4>Delivery cost: </h4>
+                    {version == 'loading' ? <p>Loading...</p> : <p>{formattedOrder.subtotal == 0 ? '£0.00' : '£2.20'}</p>}
                 </div>
             </div>
             <div data-testid='order-total-section'>
-                <h4>Total: </h4><p>{version == 'loading' ? 'Loading...' : ('£' + formattedOrder.total.toFixed(2))}</p>
+                <h4>Total: </h4>
+                {version == 'loading' ? <p>Loading...</p> : <p>{'£' + formattedOrder.total.toFixed(2)}</p>}
             </div>
         </div>
     )
