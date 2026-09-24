@@ -31,14 +31,14 @@ export default function PreviousOrder({ index } : {index: 0 | 1 | 2}) {
         if (orders.isPending) {
             return <p>Loading...</p>
         } else if (orders.isError) {
-            return <p>An error occurred.</p>
+            return <p className='text-error-red'>An error occurred.</p>
         } else {
             if (orders.data.results[index] != undefined) {
                 const dateTime = dateTimeFormatting(orders.data.results[index])
                 
                 return (
                     <>
-                    <div className={`${placeholderDataColor()}`}>
+                    <div className={`flex gap-3 ${placeholderDataColor()}`}>
                         <div>
                             <p>{dateTime.date}</p>
                         </div>
@@ -56,7 +56,7 @@ export default function PreviousOrder({ index } : {index: 0 | 1 | 2}) {
     }
 
     return (
-        <div data-testid={`order-${index}`}>
+        <div data-testid={`order-${index}`} className='flex-1 py-4 border-t flex flex-col gap-4 items-center justify-center'>
             {content()}
         </div> 
     )
