@@ -7,18 +7,18 @@ export default function OrderDetails({version , formattedOrder}: {version: 'prev
     function itemsContent() {
         if (version == 'loading') {
             return (
-                <div>
+                <div className='flex-1 flex items-center'>
                     <p>Loading...</p>
                 </div>
             )
         }
         if (formattedOrder.orderItems[0] != undefined) {
             return (
-                <ul>
+                <ul className='flex flex-col gap-4'>
                     {formattedOrder.orderItems.map((item, index) => {
                         return (
-                            <li data-testid={`order-item-${index + 1}`} key={item.item}>
-                                <span>{item.item}:</span>
+                            <li data-testid={`order-item-${index + 1}`} key={item.item} className='flex gap-4 items-center'>
+                                <span className='text-xl font-markazi'>{item.item}:</span>
                                 <span>£{item.price.toFixed(2)}</span>
                                 <span>
                                     {version == 'previousOrder' ? 'x': <MinusButton item={item.item.toLowerCase()} itemQuantity={item.itemQuantity} />}
@@ -34,26 +34,26 @@ export default function OrderDetails({version , formattedOrder}: {version: 'prev
     }
 
     return (
-        <div>
-            <div>
+        <div className='flex flex-col'>
+            <div className='h-50 py-4 flex flex-col gap-2 border-t'>
                 <h4>Items:</h4>
-                <div data-testid='order-items-section'>
+                <div data-testid='order-items-section' className='flex-1 overflow-y-auto flex flex-col'>
                     {itemsContent()}
                 </div>
             </div>
-            <div>
-                <div data-testid='order-subtotal-section'>
+            <div className='py-4 flex flex-col gap-2 border-t'>
+                <div data-testid='order-subtotal-section' className='flex gap-4 items-center'>
                     <h4>Subtotal: </h4>
                     {version == 'loading' ? <p>Loading...</p> : <p>{'£' + formattedOrder.subtotal.toFixed(2)}</p>}
                 </div>
-                <div data-testid='order-delivery-cost-section'>
+                <div data-testid='order-delivery-cost-section' className='flex gap-4 items-center'>
                     <h4>Delivery cost: </h4>
                     {version == 'loading' ? <p>Loading...</p> : <p>{formattedOrder.subtotal == 0 ? '£0.00' : '£2.20'}</p>}
                 </div>
             </div>
-            <div data-testid='order-total-section'>
-                <h4>Total: </h4>
-                {version == 'loading' ? <p>Loading...</p> : <p>{'£' + formattedOrder.total.toFixed(2)}</p>}
+            <div data-testid='order-total-section' className='py-4 flex gap-4 border-t'>
+                <h4 className='text-2xl'>Total: </h4>
+                {version == 'loading' ? <p className='text-xl'>Loading...</p> : <p className='text-xl'>{'£' + formattedOrder.total.toFixed(2)}</p>}
             </div>
         </div>
     )
