@@ -6,7 +6,11 @@ export default function OrderDetails({version , formattedOrder}: {version: 'prev
 
     function itemsContent() {
         if (version == 'loading') {
-            return <p>Loading...</p>
+            return (
+                <div>
+                    <p>Loading...</p>
+                </div>
+            )
         }
         if (formattedOrder.orderItems[0] != undefined) {
             return (
