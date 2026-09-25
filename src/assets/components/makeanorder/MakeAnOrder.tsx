@@ -42,9 +42,9 @@ export default function MakeAnOrder() {
         </div>
         <div>
             <button disabled={isDisabled()} onClick={() => mutation.mutate()}>Make Order</button>
-        </div>
-        <div>
-            {messageContent()}
+            <div>
+                {messageContent()}
+            </div>
         </div>
         </>
     )
