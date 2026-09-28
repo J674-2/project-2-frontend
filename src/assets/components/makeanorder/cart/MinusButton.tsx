@@ -27,6 +27,6 @@ export default function MinusButton({item, itemQuantity}: {item: string, itemQua
     }
 
     return (
-        <button onClick={handleClick}>-</button>
+        <button className='bg-white text-black hover:text-gray-600 text-2xl' onClick={handleClick}>-</button>
     )
 }
