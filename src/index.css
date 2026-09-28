@@ -4,6 +4,9 @@
 @theme {
   --font-markazi: "Markazi Text", serif; 
   --font-karla: 'Karla', sans-serif;
+  --color-mygreen: #495E57;
+  --color-mygrey: #EDEFEE;
+  --color-error-red: #FF0000;
 };
 
 @layer base {
