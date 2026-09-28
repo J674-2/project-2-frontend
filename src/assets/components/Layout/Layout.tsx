@@ -13,7 +13,7 @@ export default function Layout() {
                         This is a portfolio web application, so no actual food orders will be made.
                     </p>
                 </div>
-                <div className='px-5 py-6 flex flex-col gap-6 bg-[#EDEFEE] rounded-sm'>
+                <div className='px-5 py-6 flex flex-col gap-6 bg-mygrey rounded-sm'>
                     <Outlet />
                 </div>
             </main>

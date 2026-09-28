@@ -3,7 +3,7 @@ import { NavLink } from 'react-router'
 export default function Footer() {
 
     return (
-        <footer className='py-6 flex flex-col gap-5 bg-[#495E57]'>
+        <footer className='py-6 flex flex-col gap-5 bg-mygreen'>
             <div className='flex justify-center '>
                 <p className='font-markazi text-[18px]  text-white'>Portfolio Project 2026</p>
             </div>
