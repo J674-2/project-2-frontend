@@ -23,6 +23,9 @@
     h4 {
         @apply text-1.5xl font-bold font-markazi;
     }
+    li {
+        @apply text-base font-karla;
+    }
     a {
         @apply text-1.5xl underline-offset-[15%] decoration-[8%] font-markazi;
     }
