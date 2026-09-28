@@ -16,6 +16,6 @@ export default function PlusButton({item, itemQuantity}: {item: string, itemQuan
     }
 
     return (
-        <button className='bg-white text-black hover:text-gray-600 text-2xl' onClick={handleClick}>+</button>
+        <button className='bg-white text-black hover:text-gray-600 text-2xl sm:text-2.3xl' onClick={handleClick}>+</button>
     )
 }
