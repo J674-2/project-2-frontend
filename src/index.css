@@ -20,6 +20,9 @@
     h3 {
         @apply text-2xl font-bold font-markazi;
     }
+    h4 {
+        @apply text-1.5xl font-bold font-markazi;
+    }
     a {
         @apply text-1.5xl underline-offset-[15%] decoration-[8%] font-markazi;
     }
