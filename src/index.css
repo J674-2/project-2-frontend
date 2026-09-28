@@ -1,15 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Markazi+Text:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Markazi+Text:wght@400..700&display=swap');
 @import 'tailwindcss';
 
 @theme {
   --font-markazi: "Markazi Text", serif; 
+  --font-karla: 'Karla', sans-serif;
+  --color-mygreen: #495E57;
+  --color-mygrey: #EDEFEE;
+  --color-error-red: #FF0000;
+  --text-1\.5xl: 1.375rem;
 };
 
 @layer base {
     h1 {
         @apply text-[34px] font-bold font-markazi;
     }
+    h2 {
+        @apply text-[28px] font-bold font-markazi;
+    }
+    h3 {
+        @apply text-2xl font-bold font-markazi;
+    }
+    h4 {
+        @apply text-1.5xl font-bold font-markazi;
+    }
+    p {
+        @apply text-base font-karla;
+    }
+    li {
+        @apply text-base font-karla;
+    }
     a {
-        @apply text-[22px] underline-offset-[15%] decoration-[8%] font-markazi;
+        @apply text-1.5xl underline-offset-[15%] decoration-[8%] font-markazi;
+    }
+    button {
+        @apply px-2 py-0.5 bg-mygreen text-white text-base font-markazi rounded-sm;
+        @variant hover {
+            @apply bg-[#5F8075] cursor-pointer;
+        }
+        @variant disabled {
+            @apply bg-[#929292] cursor-default;
+        }
+        
+    }
+    section {
+        @apply h-126.25 p-6 flex flex-col bg-white rounded-sm;
     }
 };
