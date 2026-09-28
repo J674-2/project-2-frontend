@@ -8,6 +8,10 @@
   --color-mygrey: #EDEFEE;
   --color-error-red: #FF0000;
   --text-1\.5xl: 1.375rem;
+  --breakpoint-2xs: 30rem;
+  --breakpoint-xs: 35rem;
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 54rem;
 };
 
 @layer base {
