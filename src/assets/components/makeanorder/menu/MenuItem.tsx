@@ -29,16 +29,20 @@ export default function MenuItem({ menuItem, itemNumber }: {menuItem: Item, item
             </div>
             <div>
                 <div>
-                    <h4>{menuItem.charAt(0).toUpperCase() + menuItem.substring(1)}</h4>
+                    <div>
+                        <h4>{menuItem.charAt(0).toUpperCase() + menuItem.substring(1)}</h4>
+                    </div>
+                    <div>
+                        <p>{'£' + menuItemsInfo[menuItem].price.toFixed(2)}</p>
+                    </div>
                 </div>
                 <div>
-                    <p>{'£' + menuItemsInfo[menuItem].price.toFixed(2)}</p>
-                </div>
-                <div>
-                    <p>{menuItemsInfo[menuItem].description}</p>
-                </div>
-                <div>
-                    <button disabled={isDisabled()} onClick={handleClick}>Add to Cart</button>
+                    <div>
+                        <p>{menuItemsInfo[menuItem].description}</p>
+                    </div>
+                    <div>
+                        <button disabled={isDisabled()} onClick={handleClick}>Add to Cart</button>
+                    </div>
                 </div>
             </div>
         </div>
