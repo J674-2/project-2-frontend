@@ -32,4 +32,7 @@
     a {
         @apply text-1.5xl underline-offset-[15%] decoration-[8%] font-markazi;
     }
+    section {
+        @apply h-126.25 p-6 flex flex-col bg-white rounded-sm;
+    }
 };
