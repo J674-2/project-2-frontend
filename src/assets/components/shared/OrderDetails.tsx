@@ -18,7 +18,7 @@ export default function OrderDetails({version , formattedOrder}: {version: 'prev
                     {formattedOrder.orderItems.map((item, index) => {
                         return (
                             <li data-testid={`order-item-${index + 1}`} key={item.item} className='flex gap-4 items-center'>
-                                <span className='text-xl font-markazi'>{item.item}:</span>
+                                <span className='text-xl sm:text-1.5xl font-markazi'>{item.item}:</span>
                                 <span>£{item.price.toFixed(2)}</span>
                                 <span className='flex items-center'>
                                     {version == 'previousOrder' ? 'x': <MinusButton item={item.item.toLowerCase()} itemQuantity={item.itemQuantity} />}
@@ -52,8 +52,8 @@ export default function OrderDetails({version , formattedOrder}: {version: 'prev
                 </div>
             </div>
             <div data-testid='order-total-section' className='py-4 flex gap-4 border-t'>
-                <h4 className='text-2xl'>Total: </h4>
-                {version == 'loading' ? <p className='text-xl'>Loading...</p> : <p className='text-xl'>{'£' + formattedOrder.total.toFixed(2)}</p>}
+                <h4 className='text-2xl sm:text-2.3xl'>Total: </h4>
+                {version == 'loading' ? <p className='text-xl sm:text-1.5xl'>Loading...</p> : <p className='text-xl sm:text-1.5xl'>{'£' + formattedOrder.total.toFixed(2)}</p>}
             </div>
         </div>
     )
