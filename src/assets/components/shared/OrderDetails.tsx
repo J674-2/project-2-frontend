@@ -20,7 +20,7 @@ export default function OrderDetails({version , formattedOrder}: {version: 'prev
                             <li data-testid={`order-item-${index + 1}`} key={item.item} className='flex gap-4 items-center'>
                                 <span className='text-xl font-markazi'>{item.item}:</span>
                                 <span>£{item.price.toFixed(2)}</span>
-                                <span>
+                                <span className='flex items-center'>
                                     {version == 'previousOrder' ? 'x': <MinusButton item={item.item.toLowerCase()} itemQuantity={item.itemQuantity} />}
                                     {item.itemQuantity}
                                     {version == 'newOrder' && item.itemQuantity < 6 ? <PlusButton item={item.item.toLowerCase()} itemQuantity={item.itemQuantity} /> : ''}

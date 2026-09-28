@@ -36,21 +36,21 @@ export default function Menu() {
 
     return (
         <section>
-            <div>
+            <div className='mb-2 flex justify-center'>
                 <h3>Menu</h3>
             </div>
-            <div>
+            <div className='mb-6 flex gap-5 justify-center'>
                 <div>
-                    <button disabled={isStartersDisabled()} onClick={() => setItems(starters)}>Starters</button>
+                    <button className='py-px' disabled={isStartersDisabled()} onClick={() => setItems(starters)}>Starters</button>
                 </div>
                 <div>
-                    <button disabled={isMainsDisabled()} onClick={() => setItems(mains)}>Mains</button>
+                    <button className='py-px' disabled={isMainsDisabled()} onClick={() => setItems(mains)}>Mains</button>
                 </div>
                 <div>
-                    <button disabled={isDessertsDisabled()} onClick={() => setItems(desserts)}>Desserts</button>
+                    <button className='py-px' disabled={isDessertsDisabled()} onClick={() => setItems(desserts)}>Desserts</button>
                 </div>
             </div>
-            <div>
+            <div className='flex-1 flex flex-col'>
                 <MenuItem menuItem={items[0]} itemNumber={1} />
                 <MenuItem menuItem={items[1]} itemNumber={2} />
                 <MenuItem menuItem={items[2]} itemNumber={3} />

@@ -17,7 +17,7 @@ export default function Cart() {
 
     return(
         <section>
-            <div>
+            <div className='mb-6 flex justify-center'>
                 <h3>Cart</h3>
             </div>
             <OrderDetails version='newOrder' formattedOrder={newOrderFormatting()}/>
