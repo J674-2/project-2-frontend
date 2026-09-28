@@ -14,6 +14,9 @@
     h1 {
         @apply text-[34px] font-bold font-markazi;
     }
+    h2 {
+        @apply text-[28px] font-bold font-markazi;
+    }
     a {
         @apply text-1.5xl underline-offset-[15%] decoration-[8%] font-markazi;
     }
