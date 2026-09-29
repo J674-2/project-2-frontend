@@ -13,7 +13,7 @@ export default function PreviousOrders() {
                 In the list of orders section, clicking on an order's corresponding 'See Order' button will display the details of that order in the order summary section. 
             </p>
         </div>
-        <div className='flex flex-col md:flex-row gap-6 sm:gap-8'>
+        <div className='flex flex-col md:flex-row gap-6 sm:gap-8 lg:gap-16'>
             <ListOfOrders />
             <OrderSummary />
         </div>
