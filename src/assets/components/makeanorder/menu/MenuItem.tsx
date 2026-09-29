@@ -25,7 +25,7 @@ export default function MenuItem({ menuItem, itemNumber }: {menuItem: Item, item
     return (
         <div data-testid={`menu-item-${itemNumber}`} className='flex-1 flex gap-3 border-t items-center'>
             <div className='flex-1 h-full pt-2 flex items-center justify-center'>
-                <img className='w-30 h-18 rounded-sm' src={menuItemsInfo[menuItem].src} alt={menuItemsInfo[menuItem].description} />
+                <img className='w-30 2xs:w-38 h-18 2xs:h-22 rounded-sm' src={menuItemsInfo[menuItem].src} alt={menuItemsInfo[menuItem].description} />
             </div>
             <div className='flex-1 h-20 md:h-24 flex flex-col'>
                 <div className='flex gap-2 items-center'>
