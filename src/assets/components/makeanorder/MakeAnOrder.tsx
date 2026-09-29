@@ -36,13 +36,13 @@ export default function MakeAnOrder() {
                 Lastly, click on the 'Make Order' button to submit the order. 
             </p>
         </div>
-        <div className='flex flex-col gap-6'>
+        <div className='flex flex-col gap-6 sm:gap-8'>
             <Menu />
             <Cart />
         </div>
         <div className='flex flex-col items-center'>
             <button disabled={isDisabled()} onClick={() => mutation.mutate()}>Make Order</button>
-            <div className='mt-6 empty:mt-0'>
+            <div className='mt-6 sm:mt-8 empty:mt-0'>
                 {messageContent()}
             </div>
         </div>
