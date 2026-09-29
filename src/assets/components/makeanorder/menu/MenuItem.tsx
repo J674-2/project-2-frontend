@@ -30,15 +30,15 @@ export default function MenuItem({ menuItem, itemNumber }: {menuItem: Item, item
             <div className='flex-1 h-20 md:h-24 flex flex-col'>
                 <div className='flex gap-2 items-center'>
                     <div>
-                        <h4 className='font-normal text-base sm:text-lg underline underline-offset-[15%] decoration-[8%]'>{menuItem.charAt(0).toUpperCase() + menuItem.substring(1)}</h4>
+                        <h4 className='font-normal text-base sm:text-lg xl:text-xl underline underline-offset-[15%] decoration-[8%]'>{menuItem.charAt(0).toUpperCase() + menuItem.substring(1)}</h4>
                     </div>
                     <div>
-                        <p className='text-sm sm:text-base'>{'£' + menuItemsInfo[menuItem].price.toFixed(2)}</p>
+                        <p className='text-sm sm:text-base xl:text-lg'>{'£' + menuItemsInfo[menuItem].price.toFixed(2)}</p>
                     </div>
                 </div>
                 <div className='flex-1 flex flex-col'>
                     <div className='flex-1 pr-2'>
-                        <p className='text-[10px] sm:text-[12px]'>{menuItemsInfo[menuItem].description}</p>
+                        <p className='text-[10px] sm:text-[12px] xl:text-sm'>{menuItemsInfo[menuItem].description}</p>
                     </div>
                     <div>
                         <button className='py-0 text-sm sm:text-base' disabled={isDisabled()} onClick={handleClick}>Add to Cart</button>
