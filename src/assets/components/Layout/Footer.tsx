@@ -7,7 +7,7 @@ export default function Footer() {
             <div className='flex justify-center '>
                 <p className='font-markazi text-[18px] sm:text-xl text-white'>Portfolio Project 2026</p>
             </div>
-            <ul className='flex gap-8'>
+            <ul className='flex gap-8 sm:gap-10'>
                 <div className='flex-1 flex justify-end'>
                     <NavLink data-testid='footer-previous-orders' to='/' className={({ isActive }) => isActive ? 'text-[18px] sm:text-xl text-white underline' : 'text-[18px] sm:text-xl text-white'}>Previous Orders</NavLink>
                 </div>
