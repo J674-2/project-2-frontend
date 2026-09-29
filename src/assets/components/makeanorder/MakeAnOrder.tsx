@@ -36,7 +36,7 @@ export default function MakeAnOrder() {
                 Lastly, click on the 'Make Order' button to submit the order. 
             </p>
         </div>
-        <div className='flex flex-col gap-6'>
+        <div className='flex flex-col gap-6 sm:gap-8'>
             <Menu />
             <Cart />
         </div>
