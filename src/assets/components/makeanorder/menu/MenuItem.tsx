@@ -27,7 +27,7 @@ export default function MenuItem({ menuItem, itemNumber }: {menuItem: Item, item
             <div className='flex-1 h-full pt-2 flex items-center justify-center'>
                 <img className='w-30 h-18 rounded-sm' src={menuItemsInfo[menuItem].src} alt={menuItemsInfo[menuItem].description} />
             </div>
-            <div className='flex-1 h-20 flex flex-col'>
+            <div className='flex-1 h-20 md:h-24 flex flex-col'>
                 <div className='flex gap-2 items-center'>
                     <div>
                         <h4 className='font-normal text-base sm:text-lg underline underline-offset-[15%] decoration-[8%]'>{menuItem.charAt(0).toUpperCase() + menuItem.substring(1)}</h4>
