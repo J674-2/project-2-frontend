@@ -42,7 +42,7 @@ export default function MakeAnOrder() {
         </div>
         <div className='flex flex-col items-center'>
             <button disabled={isDisabled()} onClick={() => mutation.mutate()}>Make Order</button>
-            <div className='mt-6 empty:mt-0'>
+            <div className='mt-6 sm:mt-8 empty:mt-0'>
                 {messageContent()}
             </div>
         </div>
