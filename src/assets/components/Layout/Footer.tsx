@@ -9,10 +9,10 @@ export default function Footer() {
             </div>
             <ul className='flex gap-8 sm:gap-10'>
                 <div className='flex-1 flex justify-end'>
-                    <NavLink data-testid='footer-previous-orders' to='/' className={({ isActive }) => isActive ? 'text-[18px] sm:text-xl text-white underline' : 'text-[18px] sm:text-xl text-white'}>Previous Orders</NavLink>
+                    <NavLink data-testid='footer-previous-orders' to='/' className={({ isActive }) => isActive ? 'text-[18px] sm:text-xl text-white hover:text-gray-300 underline' : 'text-[18px] sm:text-xl text-white hover:text-gray-300'}>Previous Orders</NavLink>
                 </div>
                 <div className='flex-1 flex justify-start'>
-                    <NavLink data-testid='footer-make-an-order' to='/make-an-order' className={({ isActive }) => isActive ? 'text-[18px] sm:text-xl text-white underline' : 'text-[18px] sm:text-xl text-white'}>Make an Order</NavLink>
+                    <NavLink data-testid='footer-make-an-order' to='/make-an-order' className={({ isActive }) => isActive ? 'text-[18px] sm:text-xl text-white hover:text-gray-300 underline' : 'text-[18px] sm:text-xl text-white hover:text-gray-300'}>Make an Order</NavLink>
                 </div>
             </ul>
         </footer>
