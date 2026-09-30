@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import PageProvider from './assets/providers/PageProvider'
 import PreviousOrderInfoProvider from './assets/providers/PreviousOrderInfoProvider'
 import NewOrderInfoProvider from './assets/providers/NewOrderInfoProvider'
+import NotFound from './assets/components/notfound/NotFound'
 
 const queryClient = new QueryClient()
 
@@ -18,6 +19,7 @@ function App() {
         <Route element={<Layout />}>
           <Route index element={<PageProvider><PreviousOrderInfoProvider><PreviousOrders /></PreviousOrderInfoProvider></PageProvider>} />
           <Route path='make-an-order' element={<NewOrderInfoProvider><MakeAnOrder /></NewOrderInfoProvider>} />
+          <Route path='/*' element={<NotFound />} />
         </Route>
       </Routes>
     </QueryClientProvider>
