@@ -37,6 +37,9 @@
     }
     a {
         @apply text-1.5xl sm:text-2xl underline-offset-[15%] decoration-[8%] font-markazi;
+        @variant hover {
+            @apply text-gray-700;
+        }
     }
     button {
         @apply px-2 py-0.5 bg-mygreen text-white text-base sm:text-lg font-markazi rounded-sm;
