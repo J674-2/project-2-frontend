@@ -4,6 +4,8 @@ import OrderSummary from './ordersummary/OrderSummary'
 export default function PreviousOrders() {
     return (
         <>
+        <title>Portfolio Project: Previous Orders</title>
+        <meta name='description' content='On this page you can see previous mock food orders that were made using this application.' />
         <div className='flex justify-center'>
             <h2>Previous Orders</h2>
         </div>

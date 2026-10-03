@@ -1,6 +1,8 @@
 export default function NotFound() {
 
     return (
+        <>
+        <title>Portfolio Project: Not Found</title>
         <div className='flex flex-col gap-6 sm:gap-8'>
             <div className='flex justify-center'>
                 <h2>Not Found!</h2>
@@ -12,5 +14,6 @@ export default function NotFound() {
                 </p>
             </div>
         </div>
+        </>
     )
 }

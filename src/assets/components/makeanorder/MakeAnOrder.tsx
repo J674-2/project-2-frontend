@@ -26,6 +26,8 @@ export default function MakeAnOrder() {
 
     return (
         <>
+        <title>Portfolio Project: Make an Order</title>
+        <meta name='description' content='On this page you can make a mock food order.' />
         <div className='flex justify-center'>
             <h2>Make an Order</h2>
         </div>
