@@ -26,6 +26,7 @@ export default function MakeAnOrder() {
 
     return (
         <>
+        <title>Portfolio Project: Make an Order</title>
         <div className='flex justify-center'>
             <h2>Make an Order</h2>
         </div>
