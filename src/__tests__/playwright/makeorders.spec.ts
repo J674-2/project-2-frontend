@@ -45,7 +45,7 @@ test('Making an order and viewing it in the order summary is successful.',  asyn
     const item1Name = item1.getByText('Toast:')
     const item1Price = item1.getByText('£7.10')
     const item1Quantity = item1.getByText('x1')
-    await expect(item1).toContainText(/^Toast: £7\.10x1$/)
+    await expect(item1).toContainText(/^Toast:£7\.10x1$/)
     await expect(item1Name).toBeVisible()
     await expect(item1Price).toBeVisible()
     await expect(item1Quantity).toBeVisible()
@@ -54,7 +54,7 @@ test('Making an order and viewing it in the order summary is successful.',  asyn
     const item2Name = item2.getByText('Pie:')
     const item2Price = item2.getByText('£10.40')
     const item2Quantity = item2.getByText('x2')
-    await expect(item2).toContainText(/^Pie: £10\.40x2$/)
+    await expect(item2).toContainText(/^Pie:£10\.40x2$/)
     await expect(item2Name).toBeVisible()
     await expect(item2Price).toBeVisible()
     await expect(item2Quantity).toBeVisible()
@@ -63,7 +63,7 @@ test('Making an order and viewing it in the order summary is successful.',  asyn
     const item3Name = item3.getByText('Ice cream:')
     const item3Price = item3.getByText('£4.30')
     const item3Quantity = item3.getByText('x1')
-    await expect(item3).toContainText(/^Ice cream: £4\.30x1$/)
+    await expect(item3).toContainText(/^Ice cream:£4\.30x1$/)
     await expect(item3Name).toBeVisible()
     await expect(item3Price).toBeVisible()
     await expect(item3Quantity).toBeVisible()
@@ -85,4 +85,33 @@ test('Making an order and viewing it in the order summary is successful.',  asyn
     const totalLoading = totalSection.getByText('Loading...')
     await expect(totalLoading).toBeHidden()
     await expect(totalSection).toContainText(/^Total: £34\.40$/)
+    
+    await page.goto('http://127.0.0.1:8000/admin')
+
+    const user = page.getByLabel('Username:')
+    await user.fill('user')
+
+    const password = page.getByLabel('Password:')
+    await password.fill('1234')
+
+    await page.getByRole('button', {name: 'Log in'}).click()
+
+    await page.getByRole('link', {name: 'Orders'}).click()
+
+    const select = page.getByLabel('Action: ')
+    await select.selectOption('Delete selected orders')
+
+    await page.getByRole('checkbox').first().check()
+
+    await page.getByRole('button', {name: 'Run'}).click()
+
+    const heading1 = page.getByRole('heading', { name: 'Delete multiple objects' })
+    await expect(heading1).toBeVisible()
+
+    await page.getByRole('button').nth(3).click()
+
+    const heading2 = page.getByRole('heading', { name: 'Select order to change' })
+    await expect(heading2).toBeVisible()
+
+    await expect(page.getByText(' 0 orders ')).toBeVisible()
 })

@@ -59,6 +59,35 @@ test.describe('Header', () => {
         await expect(successMessage).toBeHidden()
         await expect(errorMessage).toBeHidden()
         await expect(pendingMessage).toBeHidden()
+        
+        await page.goto('http://127.0.0.1:8000/admin')
+
+        const user = page.getByLabel('Username:')
+        await user.fill('user')
+
+        const password = page.getByLabel('Password:')
+        await password.fill('1234')
+
+        await page.getByRole('button', {name: 'Log in'}).click()
+
+        await page.getByRole('link', {name: 'Orders'}).click()
+
+        const select = page.getByLabel('Action: ')
+        await select.selectOption('Delete selected orders')
+
+        await page.getByRole('checkbox').first().check()
+
+        await page.getByRole('button', {name: 'Run'}).click()
+
+        const heading1 = page.getByRole('heading', { name: 'Delete multiple objects' })
+        await expect(heading1).toBeVisible()
+
+        await page.getByRole('button').nth(3).click()
+
+        const heading2 = page.getByRole('heading', { name: 'Select order to change' })
+        await expect(heading2).toBeVisible()
+
+        await expect(page.getByText(' 0 orders ')).toBeVisible()
     })
 })
 
@@ -122,5 +151,34 @@ test.describe('Footer', () => {
         await expect(successMessage).toBeHidden()
         await expect(errorMessage).toBeHidden()
         await expect(pendingMessage).toBeHidden()
+                
+        await page.goto('http://127.0.0.1:8000/admin')
+
+        const user = page.getByLabel('Username:')
+        await user.fill('user')
+
+        const password = page.getByLabel('Password:')
+        await password.fill('1234')
+
+        await page.getByRole('button', {name: 'Log in'}).click()
+
+        await page.getByRole('link', {name: 'Orders'}).click()
+
+        const select = page.getByLabel('Action: ')
+        await select.selectOption('Delete selected orders')
+
+        await page.getByRole('checkbox').first().check()
+
+        await page.getByRole('button', {name: 'Run'}).click()
+
+        const heading1 = page.getByRole('heading', { name: 'Delete multiple objects' })
+        await expect(heading1).toBeVisible()
+
+        await page.getByRole('button').nth(3).click()
+
+        const heading2 = page.getByRole('heading', { name: 'Select order to change' })
+        await expect(heading2).toBeVisible()
+
+        await expect(page.getByText(' 0 orders ')).toBeVisible()
     })
 })
