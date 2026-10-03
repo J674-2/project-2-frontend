@@ -4,6 +4,7 @@ import OrderSummary from './ordersummary/OrderSummary'
 export default function PreviousOrders() {
     return (
         <>
+        <title>Portfolio Project: Previous Orders</title>
         <div className='flex justify-center'>
             <h2>Previous Orders</h2>
         </div>
